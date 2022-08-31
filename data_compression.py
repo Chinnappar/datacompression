@@ -106,6 +106,32 @@ def csvfile_compression(filepath):
 
 def data_compression(file):
     train_df=pd.read_csv(file)
+    df_map=[]
+    df_col=[]
+    key_srtby=""
+
+    for col in train_df.columns:
+        col_len=len(train_df[col].unique())
+        #print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
+
+        if col_len < 2000 :
+            if train_df[col].dtypes=='object':
+                try:
+                    train_df[col]=pd.to_datetime(train_df[col])
+                    train_df[col]=train_df[col].astype(int)
+                    #print("Date Column:",col)
+                except (ParserError,ValueError):
+                    pass
+                df_col.append(col)
+                df_unique=train_df[col].unique()
+                s=",".join(map(str,df_unique))
+                train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
+                train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
+            elif train_df[col].dtypes=='int64':
+                s="n"
+            else:
+                s="n"
+            df_map.append(s)
     return train_df
 
 def get_table_download_link(df):
@@ -123,8 +149,8 @@ def s_ui():
 
     if csv_file is not None:
         st.text(csv_file)
-        df=csvfile_compression(csv_file)
-        #df=data_compression(csv_file)
+        #df=csvfile_compression(csv_file)
+        df=data_compression(csv_file)
         #st.subheader(msg)
         st.write(df.head())
         #st.info(msg)
