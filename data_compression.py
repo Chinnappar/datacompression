@@ -152,7 +152,7 @@ def s_ui():
             with st.expander("ℹ️ - Results:", expanded=True):
                 st.write(
                     f'''
-                 -  Uploaded File Details- File Name: {csv_file.name} File Size: {convert_bytes(csv_file.size)}
+                 -  Uploaded File Details- File Name: {csv_file.name} File Type: {csv_file.type} File Size: {convert_bytes(csv_file.size)}
                  -  Size of mapping file which is used for decompression: {file_size("mapping.txt")}
                  -  Size of compression csv file: {file_size("compressed.txt")}
                  -  Size of zipped file for above two: {file_size(output)}
