@@ -105,7 +105,8 @@ def csvfile_compression(filepath):
             return msg+ex,[]
 
 def data_compression(file):
-    train_df=pd.read_csv(filepath)
+    train_df=pd.read_csv(file)
+
     return train_df
 
 def get_table_download_link(df):
