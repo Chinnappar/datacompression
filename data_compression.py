@@ -154,7 +154,7 @@ def s_ui():
             fmap_size,map_size=file_size("mapping.txt")
             fcomp_size,comp_size=file_size("compressed.txt")
             fzip_size,zip_size=file_size(output)
-            number="{:.2%}".format((csv_size-comp_size)/csv_size))
+            number="{:.2%}".format((csv_size-comp_size)/csv_size)
 
             with st.expander("ℹ️ - Results:", expanded=True):
                 st.write(
