@@ -23,6 +23,7 @@ import streamlit as st
 import base64
 import time
 import os
+import math
 
 # ------------------------------------------------------------------------------
 # -- UDF's --
@@ -159,8 +160,15 @@ def s_ui():
                     f'''
                  -  Uploaded File Details- File Name: {csv_file.name} File Type: {csv_file.type} File Size: {convert_bytes(csv_size)}
                  -  Size of mapping file which is used for decompression: {fmap_size}
-                 -  Size of compression csv file: {fcomp_size} Saved %: {comp_size/csv_size}
-                 -  Size of zipped file for above two: {fzip_size} Saved %: {zip_size/csv_size}
+                 -  Size of compression csv file: {fcomp_size}
+                 -  Size of zipped file for above two: {fzip_size}
+                    '''
+                )
+
+            with st.expander("ℹ️ - Compression %:", expanded=True):
+                st.write(
+                    f'''
+                -  Your csv file is compressed {round(100 - (comp_size/csv_size),2) } %
                     '''
                 )
             #st.write("Uploaded File Details- File Name: "+str(csv_file.name)+" File Size: "+str(convert_bytes(csv_file.size)))
