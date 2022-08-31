@@ -149,9 +149,9 @@ def s_ui():
                     mime="application/zip"
                 )
             #st.write(file_size(csv_file))
-            st.write(file_size("mapping.txt"))
-            st.write(file_size("compressed.txt"))
-            st.write(file_size(output))
+            st.write("Size of mapping file which is used for decompression:"+file_size("mapping.txt"))
+            st.write("Size of compression csv file:"+file_size("compressed.txt"))
+            st.write("Size of zipped file for above two:"+file_size(output))
 
     except Exception as ex:
         st.write("Failed!:... "+str(ex))
