@@ -94,12 +94,13 @@ def csvfile_compression(filepath):
         #file_compressed='compressed.txt'
         #with open(file_compressed, 'w') as f:
             #f.write("|".join(df_comp))
-        #df_final="|".join(df_comp)
+
+        df_final="|".join(df_comp)
 
         #file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
         #file_compress(file_name_list, zip_file_name)
-        return df_comp
+        return df_final
     except Exception as ex:
             df=[]
             df.append(ex)
