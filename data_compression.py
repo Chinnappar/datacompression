@@ -80,32 +80,45 @@ def csvfile_compression(filepath):
                 s="n"
             df_map.append(s)
 
-    file_mapping='mapping.txt'
-    with open(file_mapping, 'w') as f:
-        f.write("|".join(df_map))
+    #file_mapping='mapping.txt'
+    #with open(file_mapping, 'w') as f:
+        #f.write("|".join(df_map))
 
     df_comp=[]
     for col in train_df.columns:
         s=",".join(map(str,train_df[col]))
         df_comp.append(s)
 
-    file_compressed='compressed.txt'
-    with open(file_compressed, 'w') as f:
-        f.write("|".join(df_comp))
+    #file_compressed='compressed.txt'
+    #with open(file_compressed, 'w') as f:
+        #f.write("|".join(df_comp))
+    df_final="|".join(df_comp)
 
-    file_name_list = [file_mapping, file_compressed]
-    zip_file_name = filepath+".zip"
-    file_compress(file_name_list, zip_file_name)
+    #file_name_list = [file_mapping, file_compressed]
+    #zip_file_name = filepath+".zip"
+    #file_compress(file_name_list, zip_file_name)
+    return df_final
 
 import streamlit as st
+import base64
 
+def get_table_download_link(df):
+    val = to_excel(df)
+    b64 = base64.b64encode(val)  # val looks like b'...'
+    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="Your_File.xlsx">Download Excel file</a>' # decode b'abc' => abc
+
+st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 def s_ui():
     st.set_page_config(layout = "wide")
     st.title("Data Compression")
-    csv_file = st.sidebar.file_uploader("load your own csv file")
+    st.caption("Data Compression")
+    st.info("Developed by Chinnappar & Team (R-Anlytics)")
+    st.header("Upload a csv file for data compression")
+    csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
     if csv_file is not None:
         print(csv_file)
-        csvfile_compression(csv_file)
+        df=csvfile_compression(csv_file)
+        st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
