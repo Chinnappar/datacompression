@@ -55,7 +55,6 @@ def file_compress(inp_file_names, out_zip_file):
 # ------------------------------------------------------------------------------
 def csvfile_compression(filepath):
     msg="started"+"DateTime:"+datetime.datetime.now()
-    st.info(msg)
     try:
         train_df=pd.read_csv(filepath)
         df_map=[]
@@ -105,8 +104,9 @@ def csvfile_compression(filepath):
     except Exception as ex:
             return msg+ex,[]
 
-def data_compression():
-    return datetime.datetime.now()
+def data_compression(file):
+    train_df=pd.read_csv(filepath)
+    return train_df
 
 def get_table_download_link(df):
     val = to_csv(df)
@@ -124,10 +124,10 @@ def s_ui():
     if csv_file is not None:
         st.text(csv_file)
         #msg,df=csvfile_compression(csv_file)
-        msg=data_compression()
+        df=data_compression(csv_file)
         #st.subheader(msg)
-        #st.write(len(df))
-        st.info(msg)
+        st.write(df.head())
+        #st.info(msg)
         #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
