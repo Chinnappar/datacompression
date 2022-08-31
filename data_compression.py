@@ -21,9 +21,10 @@ import sys
 import zipfile
 import streamlit as st
 import base64
-import time
 
+import time
 my_bar = st.progress(0)
+
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
 ## Input : mapping and csvfile as a first parameter and 2nd = output file
@@ -118,10 +119,6 @@ def s_ui():
     st.info("Developed by Chinnappar & Team (R-Anlytics)")
     st.header("Upload a csv file for data compression")
     csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
-
-    for percent_complete in range(100):
-         time.sleep(0.1)
-         my_bar.progress(percent_complete + 1)
 
     if csv_file is not None:
         st.text(csv_file)
