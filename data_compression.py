@@ -36,7 +36,7 @@ def convert_bytes(size):
 def file_size(file):
     if os.path.isfile(file):
         file_info = os.stat(file)
-        return convert_bytes(file_info.st_size)
+        return convert_bytes(file_info.st_size),file_info.st_size
 
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
@@ -131,7 +131,7 @@ def s_ui():
         st.set_page_config(layout = "wide")
         st.title("Data Compression")
         st.info("Developed by Chinnappar & Team (R-AI)")
-        with st.expander("ℹ️ - About this app", expanded=True):
+        with st.expander("ℹ️ - About this app", expanded=False):
             st.write(
                 """
              -  Data compression is performed by a program that uses a formula/algorithm to determine how to shrink the size of the data.
@@ -149,13 +149,18 @@ def s_ui():
         if csv_file is not None:
             msg,output=csvfile_compression(csv_file)
             st.info(msg)
+            csv_size=csv_file.size
+            fmap_size,map_size=file_size("mapping.txt")
+            fcomp_size,comp_size=file_size("compressed.txt")
+            fzip_size,zip_size=file_size(output)
+
             with st.expander("ℹ️ - Results:", expanded=True):
                 st.write(
                     f'''
-                 -  Uploaded File Details- File Name: {csv_file.name} File Type: {csv_file.type} File Size: {convert_bytes(csv_file.size)}
-                 -  Size of mapping file which is used for decompression: {file_size("mapping.txt")}
-                 -  Size of compression csv file: {file_size("compressed.txt")}
-                 -  Size of zipped file for above two: {file_size(output)}
+                 -  Uploaded File Details- File Name: {csv_file.name} File Type: {csv_file.type} File Size: {convert_bytes(csv_size)}
+                 -  Size of mapping file which is used for decompression: {fmap_size}
+                 -  Size of compression csv file: {fcomp_size} Saved %: {comp_size/csv_size}
+                 -  Size of zipped file for above two: {fzip_size} Saved %: {zip_size/csv_size}
                     '''
                 )
             #st.write("Uploaded File Details- File Name: "+str(csv_file.name)+" File Size: "+str(convert_bytes(csv_file.size)))
