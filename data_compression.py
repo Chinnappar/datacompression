@@ -56,7 +56,7 @@ def file_compress(inp_file_names, out_zip_file):
 def csvfile_compression(filepath):
     try:
         train_df=pd.read_csv(filepath)
-        msg="Source file's size:"+str(train_df.size)
+        #msg="Source file's size:"+str(train_df.size)
         df_map=[]
         df_col=[]
         key_srtby=""
@@ -108,7 +108,7 @@ def csvfile_compression(filepath):
     except Exception as ex:
             df=[]
             df.append(ex)
-            return df
+            return "failed"+str(ex),df
 
 def get_table_download_link(df):
     val = to_csv(df)
