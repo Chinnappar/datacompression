@@ -6,7 +6,7 @@ Compressing data can save storage capacity, speed up file transfer, and decrease
 
 The design of data compression schemes involves trade-offs among various factors, for example, the degree of compression, the amount of distortion introduced, the computational resources required for compression and decompression etc.
 
-## Compression works:-
+## How compression works:-
 
 Compression is performed by a program that uses a formula or algorithm to determine how to shrink the size of the data.
 
