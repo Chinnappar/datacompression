@@ -55,7 +55,7 @@ def file_compress(inp_file_names, out_zip_file):
 # ------------------------------------------------------------------------------
 def csvfile_compression(filepath):
     try:
-        msg="Source file's size:"+str(train_df.size)
+        #msg="Source file's size:"+str(train_df.size)
         train_df=pd.read_csv(filepath)
         df_map=[]
         df_col=[]
@@ -97,13 +97,15 @@ def csvfile_compression(filepath):
             #f.write("|".join(df_comp))
 
         df_final="|".join(df_comp)
-        df = pd.DataFrame(list(df_final), columns = ['compressed'])
-        msg=msg+" After Compressed File Info:"+ str(df.size)
+        #df = pd.DataFrame(list(df_final), columns = ['compressed'])
+        #msg=msg+" After Compressed File Info:"+ str(df.size)
+
+        msg=len(df_final)
 
         #file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
         #file_compress(file_name_list, zip_file_name)
-        return msg,df
+        return msg,df_final
     except Exception as ex:
             df=[]
             df.append(ex)
@@ -118,7 +120,7 @@ def s_ui():
     st.set_page_config(layout = "wide")
     st.title("Data Compression")
     st.caption("Data Compression")
-    st.info("Developed by Chinnappar & Team (R-Anlytics)")
+    st.info("Developed by Chinnappar & Team (R-AI)")
     st.header("Upload a csv file for data compression")
     csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
 
