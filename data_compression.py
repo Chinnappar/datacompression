@@ -134,16 +134,16 @@ def s_ui():
         with st.expander("ℹ️ - About this app", expanded=True):
             st.write(
                 """
-                Data compression is performed by a program that uses a formula/algorithm to determine how to shrink the size of the data.
-                Applied 5 different formula/algorithm to compress pandas's dataframe and find the details in below:
-                    - Mapping for repeated data
-                    - Group by for repeated data
-                    - Date values convert into epoch format
-                    - Convert Base10 to Base64 for integer Values
-                    - Concatenate all the rows and make it single text!
+             -  Data compression is performed by a program that uses a formula/algorithm to determine how to shrink the size of the data.
+             -  Applied 5 different formula/algorithm to compress pandas's dataframe and find the details in below:
+                -   Mapping for repeated data
+                -   Group by for repeated data
+                -   Date values convert into epoch format
+                -   Convert Base10 to Base64 for integer Values
+                -   Concatenate all the rows and make it single text!
                 """
             )
-        st.header("Data Compression for CSV file:")
+        st.write("## Data Compression for CSV file:")
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
 
         if csv_file is not None:
