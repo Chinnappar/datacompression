@@ -22,6 +22,21 @@ import zipfile
 import streamlit as st
 import base64
 import time
+import os
+
+# ------------------------------------------------------------------------------
+# -- UDF's --
+# ------------------------------------------------------------------------------
+def convert_bytes(size):
+    for x in ['Bytes', 'KB', 'MB', 'GB', 'TB']:
+        if size < 1024.0:
+            return "%3.1f %s" % (size, x)
+        size /= 1024.0
+
+def file_size(file):
+    if os.path.isfile(file):
+        file_info = os.stat(file)
+        return convert_bytes(file_info.st_size)
 
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
@@ -137,9 +152,11 @@ def s_ui():
                 file_name=output,
                 mime="application/zip"
             )
-        st.write(output)
-        #st.info(msg)
-        #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
+
+        st.write(file_size(csv_file))
+        st.write(file_size("mapping.txt"))
+        st.write(file_size("compressed.txt"))
+        st.write(file_size(output))
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
