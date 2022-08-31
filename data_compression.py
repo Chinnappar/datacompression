@@ -83,30 +83,28 @@ def csvfile_compression(filepath):
                     s="n"
                 df_map.append(s)
 
-        #file_mapping='mapping.txt'
-        #with open(file_mapping, 'w') as f:
-            #f.write("|".join(df_map))
+        file_mapping='mapping.txt'
+        with open(file_mapping, 'w') as f:
+            f.write("|".join(df_map))
 
         df_comp=[]
         for col in train_df.columns:
             s=",".join(map(str,train_df[col]))
             df_comp.append(s)
 
-        #file_compressed='compressed.txt'
-        #with open(file_compressed, 'w') as f:
-            #f.write("|".join(df_comp))
+        file_compressed='compressed.txt'
+        with open(file_compressed, 'w') as f:
+            f.write("|".join(df_comp))
 
-        df_final="|".join(df_comp)
-
-        df = pd.DataFrame(list(df_final), columns = ['compressed'])
-        msg=msg+" After Compressed File Info:"+ str(df.size)
-
+        #df_final="|".join(df_comp)
+        #df = pd.DataFrame(list(df_final), columns = ['compressed'])
         #msg=msg+" After Compressed File Info:"+str(len(df_final))+":"+str(df.size)
+        msg="csv data compression is completed"
+        file_name_list = [file_mapping, file_compressed]
+        zip_file_name = filepath+".zip"
+        file_compress(file_name_list, zip_file_name)
 
-        #file_name_list = [file_mapping, file_compressed]
-        #zip_file_name = filepath+".zip"
-        #file_compress(file_name_list, zip_file_name)
-        return msg,df_final
+        return msg,zip_file_name
     except Exception as ex:
             df=[]
             df.append(ex)
@@ -127,10 +125,17 @@ def s_ui():
 
     if csv_file is not None:
         st.text(csv_file)
-        msg,df=csvfile_compression(csv_file)
+        msg,output=csvfile_compression(csv_file)
         #df=data_compression(csv_file)
         #st.subheader(msg)
         st.write(msg)
+        with open(output, "rb") as fp:
+            btn = st.download_button(
+                label="Download ZIP",
+                data=fp,
+                file_name=output,
+                mime="application/zip"
+            )
         #st.info(msg)
         #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
