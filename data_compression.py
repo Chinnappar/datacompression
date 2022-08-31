@@ -148,11 +148,11 @@ def s_ui():
                     file_name=output,
                     mime="application/zip"
                 )
-            st.write(file_size(csv_file))
+            #st.write(file_size(csv_file))
             st.write(file_size("mapping.txt"))
             st.write(file_size("compressed.txt"))
             st.write(file_size(output))
-            
+
     except Exception as ex:
         st.write("Failed!:... "+str(ex))
 
