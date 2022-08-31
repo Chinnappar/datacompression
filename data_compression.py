@@ -139,7 +139,7 @@ def data_compression(file):
         s=",".join(map(str,train_df[col]))
         df_comp.append(s)
 
-    return df_comp
+    return train_df
 
 def get_table_download_link(df):
     val = to_csv(df)
