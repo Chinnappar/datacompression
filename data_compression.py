@@ -114,7 +114,7 @@ def csvfile_compression(filepath):
         #df_final="|".join(df_comp)
         #df = pd.DataFrame(list(df_final), columns = ['compressed'])
         #msg=msg+" After Compressed File Info:"+str(len(df_final))+":"+str(df.size)
-        msg="csv data compression is completed"
+        msg="Data compression is completed! Please download the zip file."
         file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
         zip_file_name = "output.zip"
@@ -139,7 +139,7 @@ def s_ui():
             msg,output=csvfile_compression(csv_file)
             #st.subheader(msg)
             st.write(msg)
-            st.write("Uploaded File Details: "+str(csv_file))
+            st.write("Uploaded File Details: "+str(csv_file.name)+str(convert_bytes(csv_file.size)))
             st.write("Size of mapping file which is used for decompression: "+file_size("mapping.txt"))
             st.write("Size of compression csv file: "+file_size("compressed.txt"))
             st.write("Size of zipped file for above two: "+file_size(output))
