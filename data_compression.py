@@ -100,7 +100,7 @@ def csvfile_compression(filepath):
         #file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
         #file_compress(file_name_list, zip_file_name)
-        return df_final
+        return len(df_final)
     except Exception as ex:
             df=[]
             df.append(ex)
