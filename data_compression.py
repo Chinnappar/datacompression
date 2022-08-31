@@ -101,7 +101,7 @@ def csvfile_compression(filepath):
         df = pd.DataFrame(list(df_final), columns = ['compressed'])
         #msg=msg+" After Compressed File Info:"+ str(df.size)
 
-        msg=len(df_final)
+        msg=" After Compressed File Info:"+str(len(df_final))
 
         #file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
