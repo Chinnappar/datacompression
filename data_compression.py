@@ -117,8 +117,8 @@ def s_ui():
     if csv_file is not None:
         st.text(csv_file)
         msg,df=csvfile_compression(csv_file)
-        st.text(msg)
-        st.text(len(df))
+        st.subheader(msg)
+        st.write(len(df))
         st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
