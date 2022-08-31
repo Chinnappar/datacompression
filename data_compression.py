@@ -146,13 +146,7 @@ def s_ui():
         st.write("#### Data Compression for CSV file:")
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
 
-        if csv_file.type == "text/csv":
-            st.error(f'''
-         -  Uploaded File Details- File Name: {csv_file.name} File Type: {csv_file.type} File Size: {convert_bytes(csv_file.size)}
-         -  Kindly upload your csv file for data compression
-            ''', icon="🚨")
-
-        elif csv_file is not None:
+        if csv_file is not None:
             msg,output=csvfile_compression(csv_file)
             st.info(msg)
             with st.expander("ℹ️ - Results:", expanded=True):
