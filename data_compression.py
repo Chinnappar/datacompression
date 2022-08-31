@@ -156,8 +156,8 @@ def s_ui():
 
     if csv_file is not None:
         st.text(csv_file)
-        df=csvfile_compression(csv_file)
-        #df=data_compression(csv_file)
+        #df=csvfile_compression(csv_file)
+        df=data_compression(csv_file)
         #st.subheader(msg)
         st.write(df.head())
         #st.info(msg)
