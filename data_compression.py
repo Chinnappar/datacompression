@@ -143,17 +143,25 @@ def s_ui():
                 -   Concatenate all the rows and make it single text!
                 """
             )
-        st.write("## Data Compression for CSV file:")
+        st.write("#### Data Compression for CSV file:")
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
 
         if csv_file is not None:
             msg,output=csvfile_compression(csv_file)
-            st.write(msg)
-
-            st.write("Uploaded File Details- File Name: "+str(csv_file.name)+" File Size: "+str(convert_bytes(csv_file.size)))
-            st.write("Size of mapping file which is used for decompression: "+file_size("mapping.txt"))
-            st.write("Size of compression csv file: "+file_size("compressed.txt"))
-            st.write("Size of zipped file for above two: "+file_size(output))
+            st.info(msg)
+            with st.expander("ℹ️ - Results:", expanded=True):
+                st.write(
+                    f'''
+                 -  Uploaded File Details- File Name: {csv_file.name} File Size: {convert_bytes(csv_file.size)}
+                 -  Size of mapping file which is used for decompression: {file_size("mapping.txt")}
+                 -  Size of compression csv file: {file_size("compressed.txt")}
+                 -  Size of zipped file for above two: {file_size(output)}
+                    '''
+                )
+            #st.write("Uploaded File Details- File Name: "+str(csv_file.name)+" File Size: "+str(convert_bytes(csv_file.size)))
+            #st.write("Size of mapping file which is used for decompression: "+file_size("mapping.txt"))
+            #st.write("Size of compression csv file: "+file_size("compressed.txt"))
+            #st.write("Size of zipped file for above two: "+file_size(output))
 
             with open(output, "rb") as fp:
                 btn = st.download_button(
