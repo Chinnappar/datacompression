@@ -100,13 +100,12 @@ def csvfile_compression(filepath):
         #file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
         #file_compress(file_name_list, zip_file_name)
-        return msg,df_final
+        return df_final
     except Exception as ex:
-            return msg+ex,[]
+            return msg+ex
 
 def data_compression(file):
     train_df=pd.read_csv(file)
-
     return train_df
 
 def get_table_download_link(df):
@@ -124,8 +123,8 @@ def s_ui():
 
     if csv_file is not None:
         st.text(csv_file)
-        #msg,df=csvfile_compression(csv_file)
-        df=data_compression(csv_file)
+        df=csvfile_compression(csv_file)
+        #df=data_compression(csv_file)
         #st.subheader(msg)
         st.write(df.head())
         #st.info(msg)
