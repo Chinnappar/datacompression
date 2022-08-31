@@ -52,53 +52,55 @@ def file_compress(inp_file_names, out_zip_file):
 ## final file will be compressed with normal compression function like winzip
 # ------------------------------------------------------------------------------
 def csvfile_compression(filepath):
-    st.text("DateTime:",datetime.datetime.now())
-    train_df=pd.read_csv(filepath)
+    msg="started"+"DateTime:"+datetime.datetime.now()
+    try:
+        train_df=pd.read_csv(filepath)
+        df_map=[]
+        df_col=[]
+        key_srtby=""
 
-    df_map=[]
-    df_col=[]
-    key_srtby=""
+        for col in train_df.columns:
+            col_len=len(train_df[col].unique())
+            print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
+            if col_len < 2000 :
+                if train_df[col].dtypes=='object':
+                    try:
+                        train_df[col]=pd.to_datetime(train_df[col])
+                        train_df[col]=train_df[col].astype(int)
+                        print("Date Column:",col)
+                    except (ParserError,ValueError):
+                        pass
+                    df_col.append(col)
+                    df_unique=train_df[col].unique()
+                    s=",".join(map(str,df_unique))
+                    train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
+                    train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
+                elif train_df[col].dtypes=='int64':
+                    s="n"
+                else: # or train_df[col].dtypes=='float64':
+                    s="n"
+                df_map.append(s)
 
-    for col in train_df.columns:
-        col_len=len(train_df[col].unique())
-        print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
-        if col_len < 2000 :
-            if train_df[col].dtypes=='object':
-                try:
-                    train_df[col]=pd.to_datetime(train_df[col])
-                    train_df[col]=train_df[col].astype(int)
-                    print("Date Column:",col)
-                except (ParserError,ValueError):
-                    pass
-                df_col.append(col)
-                df_unique=train_df[col].unique()
-                s=",".join(map(str,df_unique))
-                train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
-                train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
-            elif train_df[col].dtypes=='int64':
-                s="n"
-            else: # or train_df[col].dtypes=='float64':
-                s="n"
-            df_map.append(s)
+        #file_mapping='mapping.txt'
+        #with open(file_mapping, 'w') as f:
+            #f.write("|".join(df_map))
 
-    #file_mapping='mapping.txt'
-    #with open(file_mapping, 'w') as f:
-        #f.write("|".join(df_map))
+        df_comp=[]
+        for col in train_df.columns:
+            s=",".join(map(str,train_df[col]))
+            df_comp.append(s)
 
-    df_comp=[]
-    for col in train_df.columns:
-        s=",".join(map(str,train_df[col]))
-        df_comp.append(s)
+        #file_compressed='compressed.txt'
+        #with open(file_compressed, 'w') as f:
+            #f.write("|".join(df_comp))
+        df_final="|".join(df_comp)
 
-    #file_compressed='compressed.txt'
-    #with open(file_compressed, 'w') as f:
-        #f.write("|".join(df_comp))
-    df_final="|".join(df_comp)
-
-    #file_name_list = [file_mapping, file_compressed]
-    #zip_file_name = filepath+".zip"
-    #file_compress(file_name_list, zip_file_name)
-    return df_final
+        #file_name_list = [file_mapping, file_compressed]
+        #zip_file_name = filepath+".zip"
+        #file_compress(file_name_list, zip_file_name)
+        return msg,df_final
+    except Exception as ex:
+            return msg+ex,[]
 
 def get_table_download_link(df):
     val = to_csv(df)
@@ -114,7 +116,8 @@ def s_ui():
     csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
     if csv_file is not None:
         st.text(csv_file)
-        df=csvfile_compression(csv_file)
+        msg,df=csvfile_compression(csv_file)
+        st.text(msg)
         st.text(len(df))
         st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
