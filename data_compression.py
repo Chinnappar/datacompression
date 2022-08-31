@@ -55,6 +55,7 @@ def file_compress(inp_file_names, out_zip_file):
 # ------------------------------------------------------------------------------
 def csvfile_compression(filepath):
     try:
+        msg="Base File Info:"+train_df.info(memory_usage='deep')
         train_df=pd.read_csv(filepath)
         df_map=[]
         df_col=[]
@@ -96,56 +97,22 @@ def csvfile_compression(filepath):
             #f.write("|".join(df_comp))
 
         df_final="|".join(df_comp)
+        df = pd.DataFrame (df_final, columns = ['compressed'])
+        msg=msg+" After Compressed File Info:"+df.info(memory_usage='deep')
 
         #file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
         #file_compress(file_name_list, zip_file_name)
-        return len(df_final)
+        return msg,df
     except Exception as ex:
             df=[]
             df.append(ex)
             return df
 
-def data_compression(file):
-    train_df=pd.read_csv(file)
-    df_map=[]
-    df_col=[]
-    key_srtby=""
-
-    for col in train_df.columns:
-        col_len=len(train_df[col].unique())
-        #print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
-
-        if col_len < 2000 :
-            if train_df[col].dtypes=='object':
-                try:
-                    train_df[col]=pd.to_datetime(train_df[col])
-                    train_df[col]=train_df[col].astype(int)
-                    #print("Date Column:",col)
-                except (ParserError,ValueError):
-                    pass
-                df_col.append(col)
-                df_unique=train_df[col].unique()
-                s=",".join(map(str,df_unique))
-                train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
-                train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
-            elif train_df[col].dtypes=='int64':
-                s="n"
-            else:
-                s="n"
-            df_map.append(s)
-
-    df_comp=[]
-    for col in train_df.columns:
-        s=",".join(map(str,train_df[col]))
-        df_comp.append(s)
-
-    return train_df
-
 def get_table_download_link(df):
     val = to_csv(df)
-    b64 = base64.b64encode(val)  # val looks like b'...'
-    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="Your_File.xlsx">Download Excel file</a>' # decode b'abc' => abc
+    b64 = base64.b64encode(val)
+    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="Your_File.csv">Download compressed csv file</a>' # decode b'abc' => abc
 
 def s_ui():
     st.set_page_config(layout = "wide")
@@ -157,12 +124,12 @@ def s_ui():
 
     if csv_file is not None:
         st.text(csv_file)
-        df=csvfile_compression(csv_file)
+        msg,df=csvfile_compression(csv_file)
         #df=data_compression(csv_file)
         #st.subheader(msg)
-        st.write(df)
+        st.write(msg)
         #st.info(msg)
-        #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
+        st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
