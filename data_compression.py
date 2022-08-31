@@ -136,11 +136,14 @@ def s_ui():
         csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
 
         if csv_file is not None:
-            st.text(csv_file)
             msg,output=csvfile_compression(csv_file)
-            #df=data_compression(csv_file)
             #st.subheader(msg)
             st.write(msg)
+            st.write("Uploaded File Details: "+str(csv_file))
+            st.write("Size of mapping file which is used for decompression: "+file_size("mapping.txt"))
+            st.write("Size of compression csv file: "+file_size("compressed.txt"))
+            st.write("Size of zipped file for above two: "+file_size(output))
+
             with open(output, "rb") as fp:
                 btn = st.download_button(
                     label="Download ZIP",
@@ -149,9 +152,6 @@ def s_ui():
                     mime="application/zip"
                 )
             #st.write(file_size(csv_file))
-            st.write("Size of mapping file which is used for decompression:"+file_size("mapping.txt"))
-            st.write("Size of compression csv file:"+file_size("compressed.txt"))
-            st.write("Size of zipped file for above two:"+file_size(output))
 
     except Exception as ex:
         st.write("Failed!:... "+str(ex))
