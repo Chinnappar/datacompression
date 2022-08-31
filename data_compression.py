@@ -103,11 +103,10 @@ import streamlit as st
 import base64
 
 def get_table_download_link(df):
-    val = to_excel(df)
+    val = to_csv(df)
     b64 = base64.b64encode(val)  # val looks like b'...'
     return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="Your_File.xlsx">Download Excel file</a>' # decode b'abc' => abc
 
-st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 def s_ui():
     st.set_page_config(layout = "wide")
     st.title("Data Compression")
@@ -117,6 +116,7 @@ def s_ui():
     csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
     if csv_file is not None:
         print(csv_file)
+        df=[]
         df=csvfile_compression(csv_file)
         st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
