@@ -130,16 +130,27 @@ def s_ui():
     try:
         st.set_page_config(layout = "wide")
         st.title("Data Compression")
-        st.caption("Data Compression")
         st.info("Developed by Chinnappar & Team (R-AI)")
+        with st.expander("ℹ️ - About this app", expanded=True):
+        st.write(
+            """
+            Data compression is performed by a program that uses a formula/algorithm to determine how to shrink the size of the data.
+            Applied 5 different formula/algorithm to compress pandas's dataframe and find the details in below:
+                - Mapping for repeated data
+                - Group by for repeated data
+                - Date values convert into epoch format
+                - Convert Base10 to Base64 for integer Values
+                - Concatenate all the rows and make it single text!
+            """
+        )
         st.header("Upload a csv file for data compression")
         csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
 
         if csv_file is not None:
             msg,output=csvfile_compression(csv_file)
-            #st.subheader(msg)
             st.write(msg)
-            st.write("Uploaded File Details: "+str(csv_file.name)+str(convert_bytes(csv_file.size)))
+
+            st.write("Uploaded File Details- File Name: "+str(csv_file.name)+" File Size: "+str(convert_bytes(csv_file.size)))
             st.write("Size of mapping file which is used for decompression: "+file_size("mapping.txt"))
             st.write("Size of compression csv file: "+file_size("compressed.txt"))
             st.write("Size of zipped file for above two: "+file_size(output))
