@@ -137,6 +137,7 @@ def s_ui():
                 file_name=output,
                 mime="application/zip"
             )
+        st.write(output)
         #st.info(msg)
         #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
