@@ -54,7 +54,6 @@ def file_compress(inp_file_names, out_zip_file):
 ## final file will be compressed with normal compression function like winzip
 # ------------------------------------------------------------------------------
 def csvfile_compression(filepath):
-    msg="started"+"DateTime:"+datetime.datetime.now()
     try:
         train_df=pd.read_csv(filepath)
         df_map=[]
@@ -63,13 +62,13 @@ def csvfile_compression(filepath):
 
         for col in train_df.columns:
             col_len=len(train_df[col].unique())
-            print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
+            #print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
             if col_len < 2000 :
                 if train_df[col].dtypes=='object':
                     try:
                         train_df[col]=pd.to_datetime(train_df[col])
                         train_df[col]=train_df[col].astype(int)
-                        print("Date Column:",col)
+                        #print("Date Column:",col)
                     except (ParserError,ValueError):
                         pass
                     df_col.append(col)
@@ -102,7 +101,9 @@ def csvfile_compression(filepath):
         #file_compress(file_name_list, zip_file_name)
         return df_comp
     except Exception as ex:
-            return msg+ex
+            df=[]
+            df.append(ex)
+            return df
 
 def data_compression(file):
     train_df=pd.read_csv(file)
@@ -149,8 +150,8 @@ def s_ui():
 
     if csv_file is not None:
         st.text(csv_file)
-        #df=csvfile_compression(csv_file)
-        df=data_compression(csv_file)
+        df=csvfile_compression(csv_file)
+        #df=data_compression(csv_file)
         #st.subheader(msg)
         st.write(df.head())
         #st.info(msg)
