@@ -19,7 +19,8 @@ import datetime
 from pandas.errors import ParserError
 import sys
 import zipfile
-
+import streamlit as st
+import base64
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
 ## Input : mapping and csvfile as a first parameter and 2nd = output file
@@ -51,7 +52,7 @@ def file_compress(inp_file_names, out_zip_file):
 ## final file will be compressed with normal compression function like winzip
 # ------------------------------------------------------------------------------
 def csvfile_compression(filepath):
-    print("DateTime:",datetime.datetime.now())
+    st.text("DateTime:",datetime.datetime.now())
     train_df=pd.read_csv(filepath)
 
     df_map=[]
@@ -99,9 +100,6 @@ def csvfile_compression(filepath):
     #file_compress(file_name_list, zip_file_name)
     return df_final
 
-import streamlit as st
-import base64
-
 def get_table_download_link(df):
     val = to_csv(df)
     b64 = base64.b64encode(val)  # val looks like b'...'
@@ -115,9 +113,9 @@ def s_ui():
     st.header("Upload a csv file for data compression")
     csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
     if csv_file is not None:
-        print(csv_file)
-        df=[]
+        st.text(csv_file)
         df=csvfile_compression(csv_file)
+        st.text(len(df))
         st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
