@@ -128,31 +128,31 @@ def csvfile_compression(filepath):
 
 def s_ui():
     try:
-    st.set_page_config(layout = "wide")
-    st.title("Data Compression")
-    st.caption("Data Compression")
-    st.info("Developed by Chinnappar & Team (R-AI)")
-    st.header("Upload a csv file for data compression")
-    csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
+        st.set_page_config(layout = "wide")
+        st.title("Data Compression")
+        st.caption("Data Compression")
+        st.info("Developed by Chinnappar & Team (R-AI)")
+        st.header("Upload a csv file for data compression")
+        csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
 
-    if csv_file is not None:
-        st.text(csv_file)
-        msg,output=csvfile_compression(csv_file)
-        #df=data_compression(csv_file)
-        #st.subheader(msg)
-        st.write(msg)
-        with open(output, "rb") as fp:
-            btn = st.download_button(
-                label="Download ZIP",
-                data=fp,
-                file_name=output,
-                mime="application/zip"
-            )
-        st.write(file_size(csv_file))
-        st.write(file_size("mapping.txt"))
-        st.write(file_size("compressed.txt"))
-        st.write(file_size(output))
-
+        if csv_file is not None:
+            st.text(csv_file)
+            msg,output=csvfile_compression(csv_file)
+            #df=data_compression(csv_file)
+            #st.subheader(msg)
+            st.write(msg)
+            with open(output, "rb") as fp:
+                btn = st.download_button(
+                    label="Download ZIP",
+                    data=fp,
+                    file_name=output,
+                    mime="application/zip"
+                )
+            st.write(file_size(csv_file))
+            st.write(file_size("mapping.txt"))
+            st.write(file_size("compressed.txt"))
+            st.write(file_size(output))
+            
     except Exception as ex:
         st.write("Failed!:... "+str(ex))
 
