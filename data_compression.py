@@ -98,7 +98,7 @@ def csvfile_compression(filepath):
 
         df_final="|".join(df_comp)
 
-        #df = pd.DataFrame(list(df_final), columns = ['compressed'])
+        df = pd.DataFrame(list(df_final), columns = ['compressed'])
         #msg=msg+" After Compressed File Info:"+ str(df.size)
 
         msg=len(df_final)
