@@ -23,7 +23,6 @@ import streamlit as st
 import base64
 
 import time
-my_bar = st.progress(0)
 
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
@@ -57,7 +56,7 @@ def file_compress(inp_file_names, out_zip_file):
 # ------------------------------------------------------------------------------
 def csvfile_compression(filepath):
     msg="started"+"DateTime:"+datetime.datetime.now()
-    st.info(msg)
+    #st.info(msg)
     try:
         train_df=pd.read_csv(filepath)
         df_map=[]
@@ -118,14 +117,14 @@ def s_ui():
     st.caption("Data Compression")
     st.info("Developed by Chinnappar & Team (R-Anlytics)")
     st.header("Upload a csv file for data compression")
-    csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
+    #csv_file = st.file_uploader("Load your own csv file", type=['csv'], accept_multiple_files=False)
 
-    if csv_file is not None:
-        st.text(csv_file)
-        msg,df=csvfile_compression(csv_file)
-        st.subheader(msg)
-        st.write(len(df))
-        st.markdown(get_table_download_link(df), unsafe_allow_html=True)
+    #if csv_file is not None:
+        #st.text(csv_file)
+        #msg,df=csvfile_compression(csv_file)
+        #st.subheader(msg)
+        #st.write(len(df))
+        #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
