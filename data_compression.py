@@ -105,6 +105,9 @@ def csvfile_compression(filepath):
     except Exception as ex:
             return msg+ex,[]
 
+def data_compression():
+    return datetime.datetime.now()
+
 def get_table_download_link(df):
     val = to_csv(df)
     b64 = base64.b64encode(val)  # val looks like b'...'
@@ -120,10 +123,12 @@ def s_ui():
 
     if csv_file is not None:
         st.text(csv_file)
-        msg,df=csvfile_compression(csv_file)
+        #msg,df=csvfile_compression(csv_file)
+        msg=data_compression()
         #st.subheader(msg)
-        st.write(len(df))
-        st.markdown(get_table_download_link(df), unsafe_allow_html=True)
+        #st.write(len(df))
+        st.info(msg)
+        #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
