@@ -55,7 +55,7 @@ def file_compress(inp_file_names, out_zip_file):
 # ------------------------------------------------------------------------------
 def csvfile_compression(filepath):
     try:
-        #msg="Source file's size:"+str(train_df.size)
+        msg="Source file's size:"+str(train_df.size)
         train_df=pd.read_csv(filepath)
         df_map=[]
         df_col=[]
