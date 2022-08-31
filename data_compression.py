@@ -126,12 +126,8 @@ def csvfile_compression(filepath):
             df.append(ex)
             return "failed"+str(ex),df
 
-def get_table_download_link(df):
-    val = to_csv(df)
-    b64 = base64.b64encode(val)
-    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="Your_File.csv">Download compressed csv file</a>' # decode b'abc' => abc
-
 def s_ui():
+    try:
     st.set_page_config(layout = "wide")
     st.title("Data Compression")
     st.caption("Data Compression")
@@ -152,11 +148,13 @@ def s_ui():
                 file_name=output,
                 mime="application/zip"
             )
-
         st.write(file_size(csv_file))
         st.write(file_size("mapping.txt"))
         st.write(file_size("compressed.txt"))
         st.write(file_size(output))
+
+    except Exception as ex:
+        st.write("Failed!:... "+str(ex))
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
