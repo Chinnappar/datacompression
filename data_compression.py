@@ -97,17 +97,15 @@ def csvfile_compression(filepath):
     zip_file_name = filepath+".zip"
     file_compress(file_name_list, zip_file_name)
 
+import streamlit as st
+
 def s_ui():
-    '''
-	function running the Streamlit UI. doesnt return anthing
-    '''
     st.set_page_config(layout = "wide")
     st.title("Data Compression")
     csv_file = st.sidebar.file_uploader("load your own csv file")
     if csv_file is not None:
         print(csv_file)
         csvfile_compression(csv_file)
-
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
@@ -117,6 +115,6 @@ if __name__ == "__main__":
     try:
         #csvfile_compression('training_data_sales_10k.csv')
         s_ui()
-	print("compression is completed...")
+        print("compression is completed...")
     except Exception as msg:
         print(f'''Error {msg}''')
