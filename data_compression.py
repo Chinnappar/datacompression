@@ -101,7 +101,8 @@ def csvfile_compression(filepath):
         #msg=msg+" After Compressed File Info:"+str(len(df_final))+":"+str(df.size)
         msg="csv data compression is completed"
         file_name_list = [file_mapping, file_compressed]
-        zip_file_name = filepath+".zip"
+        #zip_file_name = filepath+".zip"
+        zip_file_name = "output.zip"
         file_compress(file_name_list, zip_file_name)
 
         return msg,zip_file_name
