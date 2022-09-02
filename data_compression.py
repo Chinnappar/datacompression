@@ -103,12 +103,13 @@ def csvfile_compression(filepath):
         #msg="Source file's size:"+str(train_df.size)
         df_map=[]
         df_col={col:len(train_df[col].unique()) for col in train_df.columns}
+        df_dt=[train_df[col].dtypes for col in train_df.columns ]
         key_srtby=""
 
         for col in train_df.columns:
             col_len=len(train_df[col].unique())
             #print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
-            if col_len < 3000 :
+            if col_len < 2000 :
                 df_unique=train_df[col].unique()
                 s=",".join(map(str,df_unique))
                 train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
@@ -116,25 +117,24 @@ def csvfile_compression(filepath):
                 train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
             elif train_df[col].dtypes=='int64':
                 #print("Base64 Conversion...",train_df[col].dtypes)
-                for i in range(len(train_df[col])):
-                    #print(train_df[col][i],base10_to_base64(train_df[col][i]),len(train_df[col]))
-                    train_df[col][i]=base10_to_base64(train_df[col][i])
+                train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
                 s="b"
             elif train_df[col].dtypes=='object':
                 try:
-                    #train_df[col] = pd.to_datetime(train_df[col])
-                    #train_df[col] = train_df[col].apply(lambda x: x.value)
-                    #train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
                     train_df[col] = pd.to_datetime(train_df[col]).view(int) // 10 ** 9
                     train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
-                    #print(train_df[col])
                     #print("Date Column:",col)
                     s="d"
                 except (ParserError,ValueError):
                     pass
+            elif train_df[col].dtypes=='float64':
+                train_df[col] = train_df[col].apply(lambda x: str(base10_to_base64(int(str(x).split(".")[0]))+"."+base10_to_base64(int(str(x).split(".")[1]))))
+                s="f"
             else: # or train_df[col].dtypes=='float64':
                 s="n"
             df_map.append(s)
+        df_map.append(str(df_col))
+        df_map.append(str(df_dt))
 
         srtby=min(df_col, key=df_col.get)
         train_df=train_df.sort_values(by=srtby)
