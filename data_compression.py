@@ -102,34 +102,46 @@ def csvfile_compression(filepath):
         train_df=pd.read_csv(filepath)
         #msg="Source file's size:"+str(train_df.size)
         df_map=[]
-        df_col=[]
+        df_col={col:len(train_df[col].unique()) for col in train_df.columns}
         key_srtby=""
 
         for col in train_df.columns:
             col_len=len(train_df[col].unique())
             #print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
-            if col_len < 2000 :
-                if train_df[col].dtypes=='object':
-                    try:
-                        train_df[col]=pd.to_datetime(train_df[col])
-                        train_df[col]=train_df[col].astype(int)
-                        #print("Date Column:",col)
-                    except (ParserError,ValueError):
-                        pass
-                df_col.append(col)
+            if col_len < 3000 :
                 df_unique=train_df[col].unique()
                 s=",".join(map(str,df_unique))
                 train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
                 train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
+                train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
             elif train_df[col].dtypes=='int64':
                 #print("Base64 Conversion...",train_df[col].dtypes)
                 for i in range(len(train_df[col])):
                     #print(train_df[col][i],base10_to_base64(train_df[col][i]),len(train_df[col]))
                     train_df[col][i]=base10_to_base64(train_df[col][i])
                 s="b"
+            elif train_df[col].dtypes=='object':
+                try:
+                    #train_df[col] = pd.to_datetime(train_df[col])
+                    #train_df[col] = train_df[col].apply(lambda x: x.value)
+                    #train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
+                    train_df[col] = pd.to_datetime(train_df[col]).view(int) // 10 ** 9
+                    train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
+                    #print(train_df[col])
+                    #print("Date Column:",col)
+                    s="d"
+                except (ParserError,ValueError):
+                    pass
             else: # or train_df[col].dtypes=='float64':
                 s="n"
             df_map.append(s)
+
+        srtby=min(df_col, key=df_col.get)
+        train_df=train_df.sort_values(by=srtby)
+        df_map.append("s-"+srtby)
+
+        print(df_col)
+        print(train_df.head())
 
         file_mapping='mapping.txt'
         with open(file_mapping, 'w') as f:
@@ -153,7 +165,7 @@ def csvfile_compression(filepath):
         zip_file_name = "output.zip"
         file_compress(file_name_list, zip_file_name)
 
-        return msg,zip_file_name
+        return msg,zip_file_name,train_df
     except Exception as ex:
             print("Error:"+str(ex))
             df=[]
@@ -181,7 +193,7 @@ def s_ui():
 
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
-            msg,output=csvfile_compression(test_file)
+            msg,output,train_df=csvfile_compression(test_file)
             st.info("Data compression is completed for test file. Please find the details below...")
             ftest_size,test_size=file_size(test_file)
             ftmap_size,tmap_size=file_size("mapping.txt")
@@ -192,6 +204,9 @@ def s_ui():
             df_test=pd.read_csv(test_file)
             with st.expander("ℹ️ - Sample Data:", expanded=True):
                 st.write(df_test.head())
+
+            with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
+                st.write(train_df.head())
 
             with st.expander("ℹ️ - Test File Results:", expanded=True):
                 st.write(
@@ -209,16 +224,20 @@ def s_ui():
                     '''
                 )
 
+
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
 
         if csv_file is not None:
-            msg,output=csvfile_compression(csv_file)
+            msg,output,train_df=csvfile_compression(csv_file)
             st.info(msg)
             csv_size=csv_file.size
             fmap_size,map_size=file_size("mapping.txt")
             fcomp_size,comp_size=file_size("compressed.txt")
             fzip_size,zip_size=file_size(output)
             number="{:.2%}".format((csv_size-comp_size)/csv_size)
+
+            with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
+                st.write(train_df.head())
 
             with st.expander("ℹ️ - Results:", expanded=True):
                 st.write(
@@ -255,8 +274,11 @@ def s_ui():
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
     try:
-        #csvfile_compression('training_data_sales_10k.csv')
-        s_ui()
+        print("Started - DateTime:",datetime.datetime.now())
+        csvfile_compression('training_data_sales_10k.csv')
+        #s_ui()
         print("compression is completed...")
+        print("End - DateTime:",datetime.datetime.now())
+
     except Exception as msg:
         print(f'''Error {msg}''')
