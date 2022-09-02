@@ -109,7 +109,7 @@ def csvfile_compression(filepath):
         for col in train_df.columns:
             col_len=len(train_df[col].unique())
             #print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
-            if col_len < 2000 :
+            if col_len < 3000 :
                 df_unique=train_df[col].unique()
                 s=",".join(map(str,df_unique))
                 train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
@@ -128,7 +128,7 @@ def csvfile_compression(filepath):
                 except (ParserError,ValueError):
                     pass
             elif train_df[col].dtypes=='float64':
-                #train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else str(base10_to_base64(int(str(x).split(".")[0]))+"."+base10_to_base64(int(str(x).split(".")[1]))))
+                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else str(base10_to_base64(int(str(x).split(".")[0]))+"."+base10_to_base64(int(str(x).split(".")[1]))))
                 s="f"
             else: # or train_df[col].dtypes=='float64':
                 s="n"
