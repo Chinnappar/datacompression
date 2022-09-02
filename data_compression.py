@@ -148,8 +148,27 @@ def s_ui():
 
         if st.button("Test"):
             msg,output=csvfile_compression("training_data_sales_10k.csv")
-            st.info(msg)
-
+            st.info("Data compression is completed for test file. Please find the details below...")
+            ftest_size,test_size=file_size("training_data_sales_10k.csv")
+            ftmap_size,tmap_size=file_size("mapping.txt")
+            ftcomp_size,tcomp_size=file_size("compressed.txt")
+            ftzip_size,tzip_size=file_size(output)
+            tnumber="{:.2%}".format((test_size-tcomp_size)/test_size)
+            with st.expander("ℹ️ - Test File Results:", expanded=True):
+                st.write(
+                    f'''
+                 -  Uploaded File Details- File Name: training_data_sales_10k.csv File Type: csv File Size: {ftest_size}
+                 -  Size of mapping file which is used for decompression: {ftmap_size}
+                 -  Size of compression csv file: {ftcomp_size}
+                 -  Size of zipped file for above two: {ftzip_size}
+                    '''
+                )
+            with st.expander("ℹ️ - Test File Compression %:", expanded=True):
+                st.write(
+                    f'''
+                -  Test file is compressed - {tnumber}
+                    '''
+                )
 
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
 
