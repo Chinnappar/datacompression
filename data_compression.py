@@ -128,14 +128,14 @@ def csvfile_compression(filepath):
                 except (ParserError,ValueError):
                     pass
             elif train_df[col].dtypes=='float64':
-                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else str(base10_to_base64(int(str(x).split(".")[0]))+"."+base10_to_base64(int(str(x).split(".")[1]))))
+                #train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else str(base10_to_base64(int(str(x).split(".")[0]))+"."+base10_to_base64(int(str(x).split(".")[1]))))
                 s="f"
             else: # or train_df[col].dtypes=='float64':
                 s="n"
             df_map.append(s)
         df_map.append(str(df_col))
         df_map.append(str(df_dt))
-        
+
         #srtby=min(df_col, key=df_col.get)
         #train_df=train_df.sort_values(by=srtby)
         #df_map.append("s-"+srtby)
