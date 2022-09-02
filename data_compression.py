@@ -39,6 +39,33 @@ def file_size(file):
         file_info = os.stat(file)
         return convert_bytes(file_info.st_size),file_info.st_size
 
+def listToDict(s,b):
+    s = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
+    if b=="b":
+        return {s[i]:i for i in range(len(s))}
+    else:
+        return {i:s[i] for i in range(len(s))}
+
+def base64_to_base10(b64dec):
+    conversion_table = listToDict("b")
+    decimal = 0
+    power = len(b64dec) -1
+    for digit in b64dec:
+        decimal += conversion_table[digit]*64**power
+        power -= 1
+    return decimal
+
+def base10_to_base64(decimal):
+    conversion_table = listToDict("d")
+    remainder=0
+    b64dec = ''
+    while(decimal > 0):
+        remainder = decimal % 64
+        b64dec = conversion_table[remainder] + b64dec
+        decimal = decimal // 64
+
+    return b64dec
+
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
 ## Input : mapping and csvfile as a first parameter and 2nd = output file
@@ -94,7 +121,9 @@ def csvfile_compression(filepath):
                     train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
                     train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
                 elif train_df[col].dtypes=='int64':
-                    s="n"
+                    for i in train_df[col]:
+                        train_df[col][i]=base10_to_base64(i)
+                    s="b"
                 else: # or train_df[col].dtypes=='float64':
                     s="n"
                 df_map.append(s)
@@ -163,7 +192,7 @@ def s_ui():
             with st.expander("ℹ️ - Test File Results:", expanded=True):
                 st.write(
                     f'''
-                 -  Uploaded File Details- File Name: {test_file} File Type: csv File Size: {ftest_size}
+                 -  Test File Details- File Name: {test_file} File Type: csv File Size: {ftest_size}
                  -  Size of mapping file which is used for decompression: {ftmap_size}
                  -  Size of compression csv file: {ftcomp_size}
                  -  Size of zipped file for above two: {ftzip_size}
