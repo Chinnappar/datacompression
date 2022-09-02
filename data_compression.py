@@ -114,21 +114,21 @@ def csvfile_compression(filepath):
                 s=",".join(map(str,df_unique))
                 train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
                 train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
-                train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
+                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else base10_to_base64(int(x)))
             elif train_df[col].dtypes=='int64':
                 #print("Base64 Conversion...",train_df[col].dtypes)
-                train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
+                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else base10_to_base64(int(x)))
                 s="b"
             elif train_df[col].dtypes=='object':
                 try:
                     train_df[col] = pd.to_datetime(train_df[col]).view(int) // 10 ** 9
-                    train_df[col] = train_df[col].apply(lambda x: base10_to_base64(int(x)))
+                    train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else base10_to_base64(int(x)))
                     #print("Date Column:",col)
                     s="d"
                 except (ParserError,ValueError):
                     pass
             elif train_df[col].dtypes=='float64':
-                train_df[col] = train_df[col].apply(lambda x: str(base10_to_base64(int(str(x).split(".")[0]))+"."+base10_to_base64(int(str(x).split(".")[1]))))
+                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else str(base10_to_base64(int(str(x).split(".")[0]))+"."+base10_to_base64(int(str(x).split(".")[1]))))
                 s="f"
             else: # or train_df[col].dtypes=='float64':
                 s="n"
@@ -275,7 +275,7 @@ def s_ui():
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        #csvfile_compression('training_data_sales_10k.csv')
+        #csvfile_compression('training_data_sales_5m_sample.csv')
         s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
