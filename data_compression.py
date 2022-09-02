@@ -275,8 +275,8 @@ def s_ui():
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        csvfile_compression('training_data_sales_10k.csv')
-        #s_ui()
+        #csvfile_compression('training_data_sales_10k.csv')
+        s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
