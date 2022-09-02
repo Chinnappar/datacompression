@@ -24,6 +24,7 @@ import base64
 import time
 import os
 import math
+pd.options.mode.chained_assignment = None  # default='warn'
 
 # ------------------------------------------------------------------------------
 # -- UDF's --
@@ -39,7 +40,7 @@ def file_size(file):
         file_info = os.stat(file)
         return convert_bytes(file_info.st_size),file_info.st_size
 
-def listToDict(s,b):
+def listToDict(b):
     s = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
     if b=="b":
         return {s[i]:i for i in range(len(s))}
@@ -115,18 +116,20 @@ def csvfile_compression(filepath):
                         #print("Date Column:",col)
                     except (ParserError,ValueError):
                         pass
-                    df_col.append(col)
-                    df_unique=train_df[col].unique()
-                    s=",".join(map(str,df_unique))
-                    train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
-                    train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
-                elif train_df[col].dtypes=='int64':
-                    for i in train_df[col]:
-                        train_df[col][i]=base10_to_base64(i)
-                    s="b"
-                else: # or train_df[col].dtypes=='float64':
-                    s="n"
-                df_map.append(s)
+                df_col.append(col)
+                df_unique=train_df[col].unique()
+                s=",".join(map(str,df_unique))
+                train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
+                train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
+            elif train_df[col].dtypes=='int64':
+                #print("Base64 Conversion...",train_df[col].dtypes)
+                for i in range(len(train_df[col])):
+                    #print(train_df[col][i],base10_to_base64(train_df[col][i]),len(train_df[col]))
+                    train_df[col][i]=base10_to_base64(train_df[col][i])
+                s="b"
+            else: # or train_df[col].dtypes=='float64':
+                s="n"
+            df_map.append(s)
 
         file_mapping='mapping.txt'
         with open(file_mapping, 'w') as f:
@@ -152,6 +155,7 @@ def csvfile_compression(filepath):
 
         return msg,zip_file_name
     except Exception as ex:
+            print("Error:"+str(ex))
             df=[]
             df.append(ex)
             return "failed"+str(ex),df
