@@ -135,10 +135,10 @@ def csvfile_compression(filepath):
             df_map.append(s)
         df_map.append(str(df_col))
         df_map.append(str(df_dt))
-
-        srtby=min(df_col, key=df_col.get)
-        train_df=train_df.sort_values(by=srtby)
-        df_map.append("s-"+srtby)
+        
+        #srtby=min(df_col, key=df_col.get)
+        #train_df=train_df.sort_values(by=srtby)
+        #df_map.append("s-"+srtby)
 
         print(df_col)
         print(train_df.head())
