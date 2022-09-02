@@ -47,26 +47,89 @@ def listToDict(b):
     else:
         return {i:s[i] for i in range(len(s))}
 
-def base64_to_base10(b64dec):
+#def base64_to_base10(b64dec):
+#    conversion_table = listToDict("b")
+#    decimal = 0
+#    power = len(b64dec) -1
+#    for digit in b64dec:
+#        decimal += conversion_table[digit]*64**power
+#        power -= 1
+#    return decimal
+
+#def base10_to_base64(decimal):
+#    conversion_table = listToDict("d")
+#    remainder=0
+#    b64dec = ''
+#    while(decimal > 0):
+#        remainder = decimal % 64
+#        b64dec = conversion_table[remainder] + b64dec
+#        decimal = decimal // 64
+#    return b64dec
+
+
+def base64_to_base10(b64dec,datatype=None):
     conversion_table = listToDict("b")
-    decimal = 0
-    power = len(b64dec) -1
-    for digit in b64dec:
-        decimal += conversion_table[digit]*64**power
-        power -= 1
-    return decimal
 
-def base10_to_base64(decimal):
+    if datatype == "f":
+        x=b64dec.split(".")[0]
+        y=b64dec.split(".")[1]
+
+        x_dec=0
+        x_power = len(x)-1
+        for x_digit in x:
+            x_dec += conversion_table[x_digit]*64**x_power
+            x_power -= 1
+
+        y_dec,z,f=0,0,0
+        y_power = len(y)-1
+        for y_digit in y:
+            if y_digit=="0" and f==0:
+                z=z+1
+            else:
+                f=1
+            y_dec += conversion_table[y_digit]*64**y_power
+            y_power -= 1
+
+        return str(x_dec)+"."+str("").zfill(z)+str(y_dec)
+    else:
+        decimal = 0
+        power = len(b64dec) -1
+        for digit in b64dec:
+            decimal += conversion_table[digit]*64**power
+            power -= 1
+        return decimal
+
+def base10_to_base64(decimal,datatype=None):
     conversion_table = listToDict("d")
-    remainder=0
-    b64dec = ''
-    while(decimal > 0):
-        remainder = decimal % 64
-        b64dec = conversion_table[remainder] + b64dec
-        decimal = decimal // 64
 
-    return b64dec
+    if datatype == "f":
+        x=int(str(decimal).split(".")[0])
+        y=str(decimal).split(".")[1].strip()
+        z=len(y)-len(str(int(y)))
+        y=int(y)
 
+        x_rem=0
+        x_b64dec=''
+        while(x > 0):
+            x_rem = x % 64
+            x_b64dec = conversion_table[x_rem] + x_b64dec
+            x = x // 64
+
+        y_rem=0
+        y_b64dec=''
+        while(y > 0):
+            y_rem = y % 64
+            y_b64dec = conversion_table[y_rem] + y_b64dec
+            y = y // 64
+        return x_b64dec+"."+str("").zfill(z)+y_b64dec
+    else:
+        b64dec = ''
+        remainder=0
+        while(decimal > 0):
+            remainder = decimal % 64
+            b64dec = conversion_table[remainder] + b64dec
+            decimal = decimal // 64
+        return b64dec
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
 ## Input : mapping and csvfile as a first parameter and 2nd = output file
@@ -92,8 +155,8 @@ def file_compress(inp_file_names, out_zip_file):
 ## To applied 5 different algorithm to compress the csv file
 ## 1.Mapping for repeated data [completed]
 ## 2.Group by for repeated data
-## 3.Date values convert into epoch format
-## 4.Convert Base10 to Base64 for integer Values
+## 3.Date values convert into int format  [completed]
+## 4.Convert Base10 to Base64 for integer Values  [completed]
 ## 5.Concatenate all the rows and make it single text [completed]
 ## final file will be compressed with normal compression function like winzip
 # ------------------------------------------------------------------------------
@@ -128,7 +191,7 @@ def csvfile_compression(filepath):
                 except (ParserError,ValueError):
                     pass
             elif train_df[col].dtypes=='float64':
-                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else str(base10_to_base64(int(str(x).split(".")[0]))+"."+base10_to_base64(int(str(x).split(".")[1]))))
+                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else base10_to_base64(x,"f"))
                 s="f"
             else: # or train_df[col].dtypes=='float64':
                 s="n"
@@ -199,7 +262,7 @@ def s_ui():
             ftmap_size,tmap_size=file_size("mapping.txt")
             ftcomp_size,tcomp_size=file_size("compressed.txt")
             ftzip_size,tzip_size=file_size(output)
-            tnumber="{:.2%}".format((test_size-tcomp_size)/test_size)
+            tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
 
             df_test=pd.read_csv(test_file)
             with st.expander("ℹ️ - Sample Data:", expanded=True):
@@ -234,7 +297,7 @@ def s_ui():
             fmap_size,map_size=file_size("mapping.txt")
             fcomp_size,comp_size=file_size("compressed.txt")
             fzip_size,zip_size=file_size(output)
-            number="{:.2%}".format((csv_size-comp_size)/csv_size)
+            number="{:.2%}".format((csv_size-(comp_size+map_size))/csv_size)
 
             with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
                 st.write(train_df.head())
