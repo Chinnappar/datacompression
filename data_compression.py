@@ -109,7 +109,7 @@ def csvfile_compression(filepath):
         for col in train_df.columns:
             col_len=len(train_df[col].unique())
             #print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
-            if col_len < 3000 :
+            if col_len < 2000 :
                 df_unique=train_df[col].unique()
                 s=",".join(map(str,df_unique))
                 train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
