@@ -207,7 +207,6 @@ def csvfile_compression(filepath):
         print(train_df.head())
 
         file_mapping='mapping.txt'
-        os.chmod(file_mapping, 777)
         with open(file_mapping, 'w') as f:
             f.write("|".join(df_map))
 
@@ -217,7 +216,6 @@ def csvfile_compression(filepath):
             df_comp.append(s)
 
         file_compressed='compressed.txt'
-        os.chmod(file_compressed, 777)
         with open(file_compressed, 'w') as f:
             f.write("|".join(df_comp))
 
@@ -229,7 +227,6 @@ def csvfile_compression(filepath):
         #zip_file_name = filepath+".zip"
 
         zip_file_name = "output.zip"
-        os.chmod(zip_file_name, 777)
         file_compress(file_name_list, zip_file_name)
 
         return msg,zip_file_name,train_df
@@ -342,8 +339,8 @@ def s_ui():
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        #csvfile_compression('training_data_sales_5m_sample.csv')
-        s_ui()
+        csvfile_compression('training_data_sales_10k.csv')
+        #s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
