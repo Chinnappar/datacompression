@@ -231,8 +231,7 @@ def s_ui():
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
             output,train_df=csvfile_compression(test_file,file_mapping,file_compressed,zip_file_name)
-
-            if(output.contains("failed")):
+            if "failed" in output:
                 st.error(output)
 
             st.info("Data compression is completed for test file. Please find the details below...")
@@ -266,7 +265,7 @@ def s_ui():
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
         if csv_file is not None:
             output,train_df=csvfile_compression(csv_file,file_mapping,file_compressed,zip_file_name)
-            if(output.contains("failed")):
+            if "failed" in output:
                 st.error(output)
 
             st.info("Data compression is completed for your CSV file. Please download the Zip.")
