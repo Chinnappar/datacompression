@@ -261,7 +261,7 @@ def s_ui():
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
             msg,output,train_df=csvfile_compression(test_file)
-            st.info("Data compression is completed for test file. Please find the details below...")
+            st.info("Data compression is completed for test file. Please find the details below..."+msg)
             ftest_size,test_size=file_size(test_file)
             ftmap_size,tmap_size=file_size("mapping.txt")
             ftcomp_size,tcomp_size=file_size("compressed.txt")
