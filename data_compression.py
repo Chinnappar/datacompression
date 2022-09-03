@@ -28,9 +28,9 @@ import uuid
 pd.options.mode.chained_assignment = None  # default='warn'
 UUID = str(uuid.uuid1())
 
-file_mapping='/mapping'+UUID+'.txt'
-file_compressed='/compressed'+UUID+'.txt'
-zip_file_name = '/output'+UUID+'.zip'
+file_mapping='mapping.txt'
+file_compressed='compressed.txt'
+zip_file_name = 'output.zip'
 
 class compression:
     def __init__(self):
@@ -247,8 +247,10 @@ class compression:
                 return "failed"+str(ex),df
 
 
-
-
+# ------------------------------------------------------------------------------
+# Call main function using csv file as a input
+# This main function is used for testing purpose in Web UI
+# ------------------------------------------------------------------------------
 def s_ui():
     try:
         comp=compression()
@@ -272,21 +274,20 @@ def s_ui():
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
             msg,output,train_df=comp.csvfile_compression(test_file)
+
             st.info("Data compression is completed for test file. Please find the details below...")
             ftest_size,test_size=comp.file_size(test_file)
             ftmap_size,tmap_size=comp.file_size("mapping.txt")
             ftcomp_size,tcomp_size=comp.file_size("compressed.txt")
             ftzip_size,tzip_size=comp.file_size(output)
             tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
-
             df_test=pd.read_csv(test_file)
+
             with st.expander("ℹ️ - Sample Data:", expanded=True):
                 st.write(df_test.head())
-
-            with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
+            #with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
                 st.write(train_df.head())
-
-            with st.expander("ℹ️ - Test File Results:", expanded=True):
+            #with st.expander("ℹ️ - Test File Results:", expanded=True):
                 st.write(
                     f'''
                  -  Test File Details- File Name: {test_file} File Type: csv File Size: {ftest_size}
@@ -295,7 +296,7 @@ def s_ui():
                  -  Size of zipped file for above two: {ftzip_size}
                     '''
                 )
-            with st.expander("ℹ️ - Test File Compression %:", expanded=True):
+            #with st.expander("ℹ️ - Test File Compression %:", expanded=True):
                 st.write(
                     f'''
                 -  Test file is compressed - {tnumber}
