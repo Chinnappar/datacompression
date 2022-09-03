@@ -213,7 +213,7 @@ def csvfile_compression(filepath):
         print(df_col)
         print(train_df.head())
 
-        #file_mapping='mapping.txt'
+        file_mapping='mapping.txt'
         with open(file_mapping, 'w') as f:
             f.write("|".join(df_map))
 
@@ -222,17 +222,14 @@ def csvfile_compression(filepath):
             s=",".join(map(str,train_df[col]))
             df_comp.append(s)
 
+        file_compressed='compressed.txt'
         with open(file_compressed, 'w') as f:
             f.write("|".join(df_comp))
 
-        #df_final="|".join(df_comp)
-        #df = pd.DataFrame(list(df_final), columns = ['compressed'])
-        #msg=msg+" After Compressed File Info:"+str(len(df_final))+":"+str(df.size)
         msg="Data compression is completed! Please download the zip file."
         file_name_list = [file_mapping, file_compressed]
-        #zip_file_name = filepath+".zip"
 
-        #zip_file_name = "output.zip"
+        zip_file_name = "output.zip"
         file_compress(file_name_list, zip_file_name)
 
         return msg,zip_file_name,train_df
@@ -275,8 +272,8 @@ def s_ui():
             with st.expander("ℹ️ - Sample Data:", expanded=True):
                 st.write(df_test.head())
 
-            with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
-                st.write(train_df.head())
+            #with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
+                #st.write(train_df.head())
 
             with st.expander("ℹ️ - Test File Results:", expanded=True):
                 st.write(
