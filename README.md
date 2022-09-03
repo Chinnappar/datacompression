@@ -33,10 +33,12 @@ Applied 5 different formula/algorithm to compress pandas's dataframe and find th
 
 ##### STEP 1:
 import pydaisi as pyd
+
 data_compression = pyd.Daisi("chinnappar/data compression")
 
 ##### STEP 2:
 filepath="<FILE_FULL_PATH>"
+
 data_compression.csvfile_compression(filepath).value
 
 ##### STEP 3:
@@ -47,6 +49,7 @@ Three output files are generated after executed the above code.
 
 ### Important Note:
 This method will be saved approx 60-70% of your space and cost. 
+
 For example, 10 MB file => 3 MB file
 
 
