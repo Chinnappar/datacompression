@@ -324,7 +324,7 @@ def s_ui():
                 btn = st.download_button(
                     label="Download ZIP",
                     data=fp,
-                    file_name=output,
+                    file_name=zip_file_name,
                     mime="application/zip"
                 )
             #st.write(file_size(csv_file))
