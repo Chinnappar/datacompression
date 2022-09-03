@@ -110,6 +110,17 @@ def base10_to_base64(decimal,datatype=None):
             b64dec = conversion_table[remainder] + b64dec
             decimal = decimal // 64
         return b64dec
+
+def save(fileName,filepath):
+    directory = os.path.dirname(file_path)
+    if directory != '':
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+    with open(filepath+"\"+fileName+, 'w') as f:
+        f.write("testing...")
+
+
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
 ## Input : mapping and csvfile as a first parameter and 2nd = output file
