@@ -267,6 +267,7 @@ def s_ui():
             ftcomp_size,tcomp_size=file_size("compressed.txt")
             ftzip_size,tzip_size=file_size(output)
             tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
+            st.info("Data compression is completed for test file. Please find the details below...")
 
             df_test=pd.read_csv(test_file)
             with st.expander("ℹ️ - Sample Data:", expanded=True):
@@ -290,7 +291,6 @@ def s_ui():
                 -  Test file is compressed - {tnumber}
                     '''
                 )
-
 
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
 
