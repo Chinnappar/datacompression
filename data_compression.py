@@ -24,6 +24,13 @@ import base64
 import time
 import os
 import math
+import uuid
+UUID = str(uuid.uuid1())
+
+file_mapping='mapping'+UUID+'.txt'
+file_compressed='compressed'+UUID+'.txt'
+zip_file_name = 'output'+UUID+'.zip'
+
 pd.options.mode.chained_assignment = None  # default='warn'
 
 # ------------------------------------------------------------------------------
@@ -206,7 +213,7 @@ def csvfile_compression(filepath):
         print(df_col)
         print(train_df.head())
 
-        file_mapping='mapping.txt'
+        #file_mapping='mapping.txt'
         with open(file_mapping, 'w') as f:
             f.write("|".join(df_map))
 
@@ -215,7 +222,6 @@ def csvfile_compression(filepath):
             s=",".join(map(str,train_df[col]))
             df_comp.append(s)
 
-        file_compressed='compressed.txt'
         with open(file_compressed, 'w') as f:
             f.write("|".join(df_comp))
 
@@ -226,7 +232,7 @@ def csvfile_compression(filepath):
         file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
 
-        zip_file_name = "output.zip"
+        #zip_file_name = "output.zip"
         file_compress(file_name_list, zip_file_name)
 
         return msg,zip_file_name,train_df
@@ -339,8 +345,8 @@ def s_ui():
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        csvfile_compression('training_data_sales_10k.csv')
-        #s_ui()
+        #csvfile_compression('training_data_sales_10k.csv')
+        s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
