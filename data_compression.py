@@ -271,8 +271,8 @@ def s_ui2():
 
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
-            comp.csvfile_compression(test_file)
-            msg,output,train_df="","output.zip",[]
+            msg,output,train_df=comp.csvfile_compression(test_file)
+
 
             st.info("Data compression is completed for test file. Please find the details below...")
             ftest_size,test_size=comp.file_size(test_file)
