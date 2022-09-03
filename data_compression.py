@@ -249,7 +249,7 @@ class compression:
 
 
 
-def s_ui2()
+def s_ui2():
     try:
         comp=compression()
         st.set_page_config(layout = "wide")
