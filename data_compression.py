@@ -272,13 +272,17 @@ def s_ui2():
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
             comp.csvfile_compression(test_file)
-
-            msg,output,train_df="","",[]
+            msg,output,train_df="","output.zip",[]
 
             st.info("Data compression is completed for test file. Please find the details below...")
             ftest_size,test_size=comp.file_size(test_file)
+            st.info("Data compression is completed for test file. Please find the details below...")
+
             ftmap_size,tmap_size=comp.file_size("mapping.txt")
+            st.info("Data compression is completed for test file. Please find the details below...")
+
             ftcomp_size,tcomp_size=comp.file_size("compressed.txt")
+            st.info("Data compression is completed for test file. Please find the details below...")
             ftzip_size,tzip_size=comp.file_size(output)
             tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
             df_test=pd.read_csv(test_file)
@@ -286,7 +290,7 @@ def s_ui2():
             with st.expander("ℹ️ - Sample Data:", expanded=True):
                 st.write(df_test.head())
             with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
-                st.write(train_df.head())
+                st.write(df_test.head())
             with st.expander("ℹ️ - Test File Results:", expanded=True):
                 st.write(
                     f'''
