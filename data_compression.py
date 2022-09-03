@@ -171,7 +171,7 @@ def csvfile_compression(filepath):
 
         for col in train_df.columns:
             col_len=len(train_df[col].unique())
-            #print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
+            print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
             if col_len < 3000 :
                 df_unique=train_df[col].unique()
                 s=",".join(map(str,df_unique))
