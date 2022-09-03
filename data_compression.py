@@ -272,7 +272,7 @@ def s_ui2():
 
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
-            msg,output="",""
+            msg,output="","output.zip"
             train_df=comp.csvfile_compression(test_file)
 
 
