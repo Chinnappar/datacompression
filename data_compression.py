@@ -112,7 +112,7 @@ def base10_to_base64(decimal,datatype=None):
         return b64dec
 
 def save(fileName,filepath):
-    directory = os.path.dirname(file_path)
+    directory = os.path.dirname(filepath)
     if directory != '':
         if not os.path.exists(directory):
             os.makedirs(directory)
