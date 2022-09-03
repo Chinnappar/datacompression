@@ -24,14 +24,7 @@ import base64
 import time
 import os
 import math
-#import uuid
-#UUID = str(uuid.uuid1())
 pd.options.mode.chained_assignment = None  # default='warn'
-
-BASE_PATH='.'
-file_mapping='mapping.txt'
-file_compressed='compressed.txt'
-zip_file_name = 'output.zip'
 
 # ------------------------------------------------------------------------------
 # -- UDF's --
@@ -53,26 +46,6 @@ def listToDict(b):
         return {s[i]:i for i in range(len(s))}
     else:
         return {i:s[i] for i in range(len(s))}
-
-#def base64_to_base10(b64dec):
-#    conversion_table = listToDict("b")
-#    decimal = 0
-#    power = len(b64dec) -1
-#    for digit in b64dec:
-#        decimal += conversion_table[digit]*64**power
-#        power -= 1
-#    return decimal
-
-#def base10_to_base64(decimal):
-#    conversion_table = listToDict("d")
-#    remainder=0
-#    b64dec = ''
-#    while(decimal > 0):
-#        remainder = decimal % 64
-#        b64dec = conversion_table[remainder] + b64dec
-#        decimal = decimal // 64
-#    return b64dec
-
 
 def base64_to_base10(b64dec,datatype=None):
     conversion_table = listToDict("b")
@@ -211,7 +184,7 @@ def csvfile_compression(filepath):
         #df_map.append("s-"+srtby)
 
         #print(df_col)
-        #print(train_df.head())
+        print(train_df.head())
 
         file_mapping='mapping.txt'
         with open(file_mapping, 'w') as f:
@@ -226,19 +199,23 @@ def csvfile_compression(filepath):
         with open(file_compressed, 'w') as f:
             f.write("|".join(df_comp))
 
-        msg="Data compression is completed! Please download the zip file."
+        msg="Data compression is completed "
         file_name_list = [file_mapping, file_compressed]
 
         zip_file_name = "output.zip"
         file_compress(file_name_list, zip_file_name)
 
-        return msg,zip_file_name,train_df
+        return zip_file_name,train_df
     except Exception as ex:
             print("Error:"+str(ex))
             df=[]
             df.append(ex)
             return "failed"+str(ex),"output.zip",df
 
+# ------------------------------------------------------------------------------
+# Call main function using csv file as a input
+# This main function is used for testing purpose from WebUI
+# ------------------------------------------------------------------------------
 def s_ui():
     try:
         st.set_page_config(layout = "wide")
@@ -260,8 +237,11 @@ def s_ui():
 
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
-            msg,output,train_df=csvfile_compression(test_file)
-            st.info("Data compression is completed for test file. Please find the details below..."+msg)
+            output,train_df=csvfile_compression(test_file)
+            if(output.contains("failed")):
+                st.error(output)
+
+            st.info("Data compression is completed for test file. Please find the details below...")
             ftest_size,test_size=file_size(test_file)
             ftmap_size,tmap_size=file_size("mapping.txt")
             ftcomp_size,tcomp_size=file_size("compressed.txt")
@@ -333,10 +313,9 @@ def s_ui():
 
     except Exception as ex:
         st.write("Failed!:... "+str(ex))
-
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
-# This main function is used for testing purpose in local
+# This main function is used for testing purpose from local system
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
     try:
