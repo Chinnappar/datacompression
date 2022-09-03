@@ -207,6 +207,7 @@ def csvfile_compression(filepath):
         print(train_df.head())
 
         file_mapping='mapping.txt'
+        os.chmod(file_mapping, 777)
         with open(file_mapping, 'w') as f:
             f.write("|".join(df_map))
 
@@ -216,6 +217,7 @@ def csvfile_compression(filepath):
             df_comp.append(s)
 
         file_compressed='compressed.txt'
+        os.chmod(file_compressed, 777)
         with open(file_compressed, 'w') as f:
             f.write("|".join(df_comp))
 
@@ -225,7 +227,9 @@ def csvfile_compression(filepath):
         msg="Data compression is completed! Please download the zip file."
         file_name_list = [file_mapping, file_compressed]
         #zip_file_name = filepath+".zip"
+
         zip_file_name = "output.zip"
+        os.chmod(zip_file_name, 777)
         file_compress(file_name_list, zip_file_name)
 
         return msg,zip_file_name,train_df
