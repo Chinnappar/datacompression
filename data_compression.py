@@ -210,8 +210,8 @@ def csvfile_compression(filepath):
         #train_df=train_df.sort_values(by=srtby)
         #df_map.append("s-"+srtby)
 
-        print(df_col)
-        print(train_df.head())
+        #print(df_col)
+        #print(train_df.head())
 
         file_mapping='mapping.txt'
         with open(file_mapping, 'w') as f:
@@ -237,7 +237,7 @@ def csvfile_compression(filepath):
             print("Error:"+str(ex))
             df=[]
             df.append(ex)
-            return "failed"+str(ex),df
+            return "failed"+str(ex),"output.zip",df
 
 def s_ui():
     try:
