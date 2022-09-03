@@ -292,7 +292,7 @@ def s_ui2():
             with st.expander("ℹ️ - Sample Data:", expanded=True):
                 st.write(df_test.head())
             with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
-                st.write(df_test.head())
+                st.write(train_df.head())
             with st.expander("ℹ️ - Test File Results:", expanded=True):
                 st.write(
                     f'''
