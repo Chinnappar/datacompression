@@ -211,7 +211,7 @@ def s_ui():
         st.set_page_config(layout = "wide")
         st.title("Data Compression")
         st.info("Developed by Chinnappar & Team (R-AI)")
-        with st.expander("ℹ️ - About this app", expanded=False):
+        with st.expander("ℹ️ - About this app", expanded=True):
             st.write(
                 """
              -  Data compression is performed by a program that uses a formula/algorithm to determine how to shrink the size of the data.
