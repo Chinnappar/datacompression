@@ -320,7 +320,7 @@ def s_ui():
                     '''
                 )
 
-            with open(output, "rb") as fp:
+            with open(zip_file_name, "rb") as fp:
                 btn = st.download_button(
                     label="Download ZIP",
                     data=fp,
