@@ -351,9 +351,9 @@ def s_ui():
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
     try:
-        comp=compression()
         print("Started - DateTime:",datetime.datetime.now())
-        comp.csvfile_compression('training_data_sales_10k.csv')
+        #comp=compression()
+        #comp.csvfile_compression('training_data_sales_10k.csv')
         s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
