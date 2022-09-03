@@ -31,6 +31,7 @@ UUID = str(uuid.uuid1())
 file_mapping='mapping.txt'
 file_compressed='compressed.txt'
 zip_file_name = 'output.zip'
+output = zip_file_name
 
 class compression:
     def __init__(self):
@@ -247,6 +248,61 @@ class compression:
                 return "failed"+str(ex),df
 
 
+
+def s_ui2()
+    try:
+        comp=compression()
+        st.set_page_config(layout = "wide")
+        st.title("Data Compression")
+        st.info("Developed by Chinnappar & Team (R-AI)")
+        with st.expander("ℹ️ - About this app", expanded=False):
+            st.write(
+                """
+             -  Data compression is performed by a program that uses a formula/algorithm to determine how to shrink the size of the data.
+             -  Applied 5 different formula/algorithm to compress pandas's dataframe and find the details in below:
+                -   Mapping for repeated data
+                -   Group by for repeated data
+                -   Date values convert into epoch format
+                -   Convert Base10 to Base64 for integer Values
+                -   Concatenate all the rows and make it single text!
+                """
+            )
+        st.write("#### Data Compression for CSV file:")
+
+        if st.button("Test"):
+            test_file="training_data_sales_10k.csv"
+            msg,output,train_df=comp.csvfile_compression(test_file)
+
+            st.info("Data compression is completed for test file. Please find the details below...")
+            ftest_size,test_size=comp.file_size(test_file)
+            ftmap_size,tmap_size=comp.file_size("mapping.txt")
+            ftcomp_size,tcomp_size=comp.file_size("compressed.txt")
+            ftzip_size,tzip_size=comp.file_size(output)
+            tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
+            df_test=pd.read_csv(test_file)
+
+            with st.expander("ℹ️ - Sample Data:", expanded=True):
+                st.write(df_test.head())
+            with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
+                st.write(train_df.head())
+            with st.expander("ℹ️ - Test File Results:", expanded=True):
+                st.write(
+                    f'''
+                 -  Test File Details- File Name: {test_file} File Type: csv File Size: {ftest_size}
+                 -  Size of mapping file which is used for decompression: {ftmap_size}
+                 -  Size of compression csv file: {ftcomp_size}
+                 -  Size of zipped file for above two: {ftzip_size}
+                    '''
+                )
+            with st.expander("ℹ️ - Test File Compression %:", expanded=True):
+                st.write(
+                    f'''
+                -  Test file is compressed - {tnumber}
+                    '''
+                )
+    except Exception as ex:
+        st.write("Failed!:... "+str(ex))
+
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
 # This main function is used for testing purpose in Web UI
@@ -285,9 +341,9 @@ def s_ui():
 
             with st.expander("ℹ️ - Sample Data:", expanded=True):
                 st.write(df_test.head())
-            #with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
+            with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
                 st.write(train_df.head())
-            #with st.expander("ℹ️ - Test File Results:", expanded=True):
+            with st.expander("ℹ️ - Test File Results:", expanded=True):
                 st.write(
                     f'''
                  -  Test File Details- File Name: {test_file} File Type: csv File Size: {ftest_size}
@@ -296,13 +352,12 @@ def s_ui():
                  -  Size of zipped file for above two: {ftzip_size}
                     '''
                 )
-            #with st.expander("ℹ️ - Test File Compression %:", expanded=True):
+            with st.expander("ℹ️ - Test File Compression %:", expanded=True):
                 st.write(
                     f'''
                 -  Test file is compressed - {tnumber}
                     '''
                 )
-
 
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
 
@@ -355,7 +410,8 @@ if __name__ == "__main__":
         print("Started - DateTime:",datetime.datetime.now())
         #comp=compression()
         #comp.csvfile_compression('training_data_sales_10k.csv')
-        s_ui()
+        #s_ui()
+        s_ui2()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
