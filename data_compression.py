@@ -111,15 +111,13 @@ def base10_to_base64(decimal,datatype=None):
             decimal = decimal // 64
         return b64dec
 
-def save(fileName,filepath):
-    directory = os.path.dirname(filepath)
-    if directory != '':
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-
-    with open(filepath+'/'+fileName, 'w') as f:
-        f.write("testing...")
-
+#def save(fileName,filepath):
+#    directory = os.path.dirname(filepath)
+#    if directory != '':
+#        if not os.path.exists(directory):
+#            os.makedirs(directory)
+#    with open(filepath+'/'+fileName, 'w') as f:
+#        f.write("testing...")
 
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
@@ -151,7 +149,7 @@ def file_compress(inp_file_names, out_zip_file):
 ## 5.Concatenate all the rows and make it single text [completed]
 ## final file will be compressed with normal compression function like winzip
 # ------------------------------------------------------------------------------
-def csvfile_compression(filepath,file_mapping,file_compressed,zip_file_name):
+def csvfile_compression(filepath):
     try:
         train_df=pd.read_csv(filepath)
         #msg="Source file's size:"+str(train_df.size)
@@ -191,7 +189,15 @@ def csvfile_compression(filepath,file_mapping,file_compressed,zip_file_name):
         df_map.append(str(df_dt))
 
         print(train_df.head())
+        return "Success",df_map,train_df
 
+    except Exception as ex:
+            print("Error:"+str(ex))
+            df=[]
+            return "Failed!..."+str(ex),df,df
+
+def save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name):
+    try:
         with open(file_mapping, 'w') as f:
             f.write("|".join(df_map))
 
@@ -205,13 +211,12 @@ def csvfile_compression(filepath,file_mapping,file_compressed,zip_file_name):
 
         file_name_list = [file_mapping, file_compressed]
         file_compress(file_name_list, zip_file_name)
-
-        return zip_file_name,train_df
+        return "success"
     except Exception as ex:
             print("Error:"+str(ex))
             df=[]
-            df.append(ex)
-            return "failed"+str(ex),df
+            return "Failed!..."+str(ex)
+
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
@@ -241,9 +246,14 @@ def s_ui():
 
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
-            output,train_df=csvfile_compression(test_file,file_mapping,file_compressed,zip_file_name)
-            if "failed" in output:
-                st.error(output)
+
+            msg,df_map,train_df=csvfile_compression(test_file)
+            if "failed" in msg:
+                st.error(msg)
+
+            msg=save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+            if "failed" in msg:
+                st.error(msg)
 
             st.info("Data compression is completed for test file. Please find the details below...")
             ftest_size,test_size=file_size(test_file)
@@ -275,9 +285,13 @@ def s_ui():
 
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
         if csv_file is not None:
-            output,train_df=csvfile_compression(csv_file,file_mapping,file_compressed,zip_file_name)
-            if "failed" in output:
-                st.error(output)
+            msg,df_map,train_df=csvfile_compression(csv_file)
+            if "failed" in msg:
+                st.error(msg)
+
+            msg=save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+            if "failed" in msg:
+                st.error(msg)
 
             st.info("Data compression is completed for your CSV file. Please download the Zip.")
             csv_size=csv_file.size
@@ -328,7 +342,10 @@ if __name__ == "__main__":
         file_mapping='mapping.txt'
         file_compressed='compressed.txt'
         zip_file_name = "output.zip"
-        #csvfile_compression('training_data_sales_10k.csv',file_mapping,file_compressed,zip_file_name)
+
+        #msg,df_map,train_df=csvfile_compression('training_data_sales_10k.csv')
+        #save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+
         s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
