@@ -117,7 +117,7 @@ def save(fileName,filepath):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-    with open(filepath+"\"+fileName+, 'w') as f:
+    with open(filepath+'/'+fileName, 'w') as f:
         f.write("testing...")
 
 
