@@ -224,7 +224,7 @@ def s_ui():
                 """
             )
         st.write("#### Data Compression for CSV file:")
-        file_mapping='mapping.txt'
+        file_mapping='mapping2.txt'
         file_compressed='compressed.txt'
         zip_file_name = 'output.zip'
 
