@@ -240,7 +240,8 @@ class compression:
             zip_file_name = "output.zip"
             self.file_compress(file_name_list, zip_file_name)
 
-            return msg,zip_file_name,train_df
+            #return msg,zip_file_name,train_df
+            return train_df
         except Exception as ex:
                 print("Error:"+str(ex))
                 df=[]
@@ -271,7 +272,8 @@ def s_ui2():
 
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
-            msg,output,train_df=comp.csvfile_compression(test_file)
+            msg,output="",""
+            train_df=comp.csvfile_compression(test_file)
 
 
             st.info("Data compression is completed for test file. Please find the details below...")
