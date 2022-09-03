@@ -140,7 +140,7 @@ def file_compress(inp_file_names, out_zip_file):
 ## 5.Concatenate all the rows and make it single text [completed]
 ## final file will be compressed with normal compression function like winzip
 # ------------------------------------------------------------------------------
-def csvfile_compression(filepath):
+def csvfile_compression(filepath,file_mapping,file_compressed,zip_file_name):
     try:
         train_df=pd.read_csv(filepath)
         #msg="Source file's size:"+str(train_df.size)
@@ -179,14 +179,8 @@ def csvfile_compression(filepath):
         df_map.append(str(df_col))
         df_map.append(str(df_dt))
 
-        #srtby=min(df_col, key=df_col.get)
-        #train_df=train_df.sort_values(by=srtby)
-        #df_map.append("s-"+srtby)
-
-        #print(df_col)
         print(train_df.head())
 
-        file_mapping='mapping.txt'
         with open(file_mapping, 'w') as f:
             f.write("|".join(df_map))
 
@@ -195,14 +189,10 @@ def csvfile_compression(filepath):
             s=",".join(map(str,train_df[col]))
             df_comp.append(s)
 
-        file_compressed='compressed.txt'
         with open(file_compressed, 'w') as f:
             f.write("|".join(df_comp))
 
-        msg="Data compression is completed "
         file_name_list = [file_mapping, file_compressed]
-
-        zip_file_name = "output.zip"
         file_compress(file_name_list, zip_file_name)
 
         return zip_file_name,train_df
@@ -210,7 +200,7 @@ def csvfile_compression(filepath):
             print("Error:"+str(ex))
             df=[]
             df.append(ex)
-            return "failed"+str(ex),"output.zip",df
+            return "failed"+str(ex),df
 
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
@@ -234,27 +224,29 @@ def s_ui():
                 """
             )
         st.write("#### Data Compression for CSV file:")
+        file_mapping='mapping.txt'
+        file_compressed='compressed.txt'
+        zip_file_name = 'output.zip'
 
         if st.button("Test"):
             test_file="training_data_sales_10k.csv"
-            output,train_df=csvfile_compression(test_file)
+            output,train_df=csvfile_compression(test_file,file_mapping,file_compressed,zip_file_name)
+
             if(output.contains("failed")):
                 st.error(output)
 
             st.info("Data compression is completed for test file. Please find the details below...")
             ftest_size,test_size=file_size(test_file)
-            ftmap_size,tmap_size=file_size("mapping.txt")
-            ftcomp_size,tcomp_size=file_size("compressed.txt")
-            ftzip_size,tzip_size=file_size(output)
+            ftmap_size,tmap_size=file_size(file_mapping)
+            ftcomp_size,tcomp_size=file_size(file_compressed)
+            ftzip_size,tzip_size=file_size(zip_file_name)
             tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
 
             df_test=pd.read_csv(test_file)
             with st.expander("ℹ️ - Sample Data:", expanded=True):
                 st.write(df_test.head())
-
             with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
                 st.write(train_df.head())
-
             with st.expander("ℹ️ - Test File Results:", expanded=True):
                 st.write(
                     f'''
@@ -272,14 +264,16 @@ def s_ui():
                 )
 
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
-
         if csv_file is not None:
-            msg,output,train_df=csvfile_compression(csv_file)
-            st.info(msg)
+            output,train_df=csvfile_compression(csv_file,file_mapping,file_compressed,zip_file_name)
+            if(output.contains("failed")):
+                st.error(output)
+
+            st.info("Data compression is completed for your CSV file. Please download the Zip.")
             csv_size=csv_file.size
-            fmap_size,map_size=file_size("mapping.txt")
-            fcomp_size,comp_size=file_size("compressed.txt")
-            fzip_size,zip_size=file_size(output)
+            fmap_size,map_size=file_size(file_mapping)
+            fcomp_size,comp_size=file_size(file_compressed)
+            fzip_size,zip_size=file_size(zip_file_name)
             number="{:.2%}".format((csv_size-(comp_size+map_size))/csv_size)
 
             with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
@@ -312,7 +306,8 @@ def s_ui():
             #st.write(file_size(csv_file))
 
     except Exception as ex:
-        st.write("Failed!:... "+str(ex))
+        st.error("Failed!:... "+str(ex))
+
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
 # This main function is used for testing purpose from local system
@@ -320,8 +315,11 @@ def s_ui():
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        #csvfile_compression('training_data_sales_10k.csv')
-        s_ui()
+        file_mapping='mapping.txt'
+        file_compressed='compressed.txt'
+        zip_file_name = "output.zip"
+        csvfile_compression('training_data_sales_10k.csv',file_mapping,file_compressed,zip_file_name)
+        #s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
