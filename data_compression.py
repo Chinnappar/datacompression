@@ -318,8 +318,8 @@ if __name__ == "__main__":
         file_mapping='mapping.txt'
         file_compressed='compressed.txt'
         zip_file_name = "output.zip"
-        csvfile_compression('training_data_sales_10k.csv',file_mapping,file_compressed,zip_file_name)
-        #s_ui()
+        #csvfile_compression('training_data_sales_10k.csv',file_mapping,file_compressed,zip_file_name)
+        s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
