@@ -62,17 +62,23 @@ data_compression.compression(csvfile="training_data_sales_10k.csv",
 
 ##### STEP 1:
 
-Go to this link:
+- Go to this link:
 https://app.daisi.io/daisies/chinnappar/data%20compression/streamlit
 
 ##### STEP 2:
-Click the Test button, automatically read the test csv file.
-Function will trigger and final output files are saved and also detail information will be displayed in the page.
+
+- Click the Test button, automatically read the test csv file.
+- Function will trigger and final output files are saved and also detail information will be displayed in the page.
 
 ##### STEP 3:
 
-Please click the browse buttom for upload your own csv file. 
-Function will trigger and final output files are saved and also detail information will be displayed in the page.
+- Please click the browse buttom for upload your own csv file. 
+- Function will trigger and final output files are saved and also detail information will be displayed in the page.
+
+##### STEP 4:
+
+- Click the Download ZIP Button to download your output files
+
 
 ##### Screenshots:
 
@@ -85,6 +91,9 @@ Function will trigger and final output files are saved and also detail informati
 ##### Your Own CSV File - TESTING
 
 <img width="1353" alt="Screenshot 2022-09-05 at 7 43 21 AM" src="https://user-images.githubusercontent.com/112493795/188348011-2626f263-8e41-45b6-885f-48283f29cf39.png">
+
+Click the Download Zip Button to download your output files
+<img width="586" alt="Screenshot 2022-09-05 at 8 06 25 AM" src="https://user-images.githubusercontent.com/112493795/188350129-0b56dbe5-8129-4816-8192-207be5b88560.png">
 
 
 ### Conclusion:
