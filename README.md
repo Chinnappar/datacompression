@@ -32,6 +32,7 @@ Applied 5 different formula/algorithm to compress pandas's dataframe and find th
 - Concatenate all the rows and make it single text!
     - saved the text into compressed.txt file
 
+We have developed streamlit WebUI for my function. Kindly check the same.
 
 #### How will use this function from Jupyter Notebook?
 
@@ -58,21 +59,27 @@ data_compression.compression(csvfile="training_data_sales_10k.csv",
 
 <img width="1015" alt="Screenshot 2022-09-05 at 7 11 02 AM" src="https://user-images.githubusercontent.com/112493795/188343968-931aede6-c479-4fc4-84ae-269708f40b0c.png">
 
-#### How will use this function from Streamlin?
+#### How will use this function from streamlit?
 
 ##### STEP 1:
 
-Go to this link:
+- Go to this link or click App
 https://app.daisi.io/daisies/chinnappar/data%20compression/streamlit
 
 ##### STEP 2:
-Click the Test button, automatically read the test csv file.
-Function will trigger and final output files are saved and also detail information will be displayed in the page.
+
+- Click the Test button, automatically read the test csv file.
+- Function will trigger and final output files are saved and also detail information will be displayed in the page.
 
 ##### STEP 3:
 
-Please click the browse buttom for upload your own csv file. 
-Function will trigger and final output files are saved and also detail information will be displayed in the page.
+- Please click the browse buttom for upload your own csv file. 
+- Function will trigger and final output files are saved and also detail information will be displayed in the page.
+
+##### STEP 4:
+
+- Click the Download ZIP Button to download your output files
+
 
 ##### Screenshots:
 
@@ -86,14 +93,14 @@ Function will trigger and final output files are saved and also detail informati
 
 <img width="1353" alt="Screenshot 2022-09-05 at 7 43 21 AM" src="https://user-images.githubusercontent.com/112493795/188348011-2626f263-8e41-45b6-885f-48283f29cf39.png">
 
+Click the Download Zip Button to download your output files
+<img width="586" alt="Screenshot 2022-09-05 at 8 06 25 AM" src="https://user-images.githubusercontent.com/112493795/188350129-0b56dbe5-8129-4816-8192-207be5b88560.png">
+
 
 ### Conclusion:
 - This method will be saved approx 60-70% of your space and cost. 
 - For example, if you are uploading 10 MB csv file, this method will compressed data and store 3 MB files [mapping & compressed]
 - Important Note, We can use any kind of files which is supported by pandas. (CSV/JSON/XML or DB's TABLE Also). This method apply all the algorithm/formula on pandas dataframe only so this will applicable for all the file format which is supported by pandas dataframe.
-
-
-
 
 
 
