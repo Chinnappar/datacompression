@@ -30,6 +30,15 @@ pd.options.mode.chained_assignment = None  # default='warn'
 # ------------------------------------------------------------------------------
 
 class data_compression:
+    def __init__(self):
+        self.df_input=None
+        self.df_final=None
+
+    def getInputDF(self):
+        return self.df_input
+
+    def getCompDF(self):
+        return self.df_final
 
     def convert_bytes(self,size):
         for x in ['Bytes', 'KB', 'MB', 'GB', 'TB']:
@@ -146,6 +155,7 @@ class data_compression:
     def csvfile_compression(self,filepath):
         try:
             train_df=pd.read_csv(filepath)
+            self.df_input=pd.read_csv(filepath)
             #msg="Source file's size:"+str(train_df.size)
             df_map=[]
             df_col={col:len(train_df[col].unique()) for col in train_df.columns}
@@ -183,6 +193,7 @@ class data_compression:
             df_map.append(str(df_dt))
 
             print(train_df.head())
+            self.df_final=train_df
             return "Success",df_map,train_df
 
         except Exception as ex:
@@ -339,6 +350,12 @@ def compression():
     compression = data_compression()
     msg,df_map,train_df=compression.csvfile_compression(test_file)
     compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+
+    print("Testing - Input Sample Data:")
+    print(compression.getInputDF().head())
+
+    print("Testing - Compressed Sample Data:")
+    print(compression.getCompDF().head())
 
     ftest_size,test_size=compression.file_size(test_file)
     ftmap_size,tmap_size=compression.file_size(file_mapping)
