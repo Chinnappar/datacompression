@@ -40,11 +40,11 @@ data_compression.compression(csvfile="training_data_sales_10k.csv",
                              file_compressed="compressed.txt", 
                              zip_file_name="output.zip").value
                             
- Parameters:
- csvfile - This is input csv file and optional. This file should be presented in the server.
- file_mapping - first output file [Mapping File] and this will used for decompression.
- file_compressed - second output file [Compressed File] and compressed data will be stored.
- zip_file_name - third output file [output.zip]. Above two files (mapping and compressed) are zipped and stored in this file.
+ ##### Parameters:
+ - csvfile - This is input csv file and optional. This file should be presented in the server.
+ - file_mapping - first output file [Mapping File] and this will used for decompression.
+ - file_compressed - second output file [Compressed File] and compressed data will be stored.
+ - zip_file_name - third output file [output.zip]. Above two files (mapping and compressed) are zipped and stored in this file.
  
  Note: if you are facing any file permission issue, please run chmod 777 command and try again.
  
