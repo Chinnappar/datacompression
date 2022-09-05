@@ -342,11 +342,11 @@ def s_ui():
 # This main function is used for testing purpose from local system
 # ------------------------------------------------------------------------------
 
-def compression():
-    test_file='training_data_sales_10k.csv'
-    file_mapping='mapping.txt'
-    file_compressed='compressed.txt'
-    zip_file_name = "output.zip"
+def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt',file_compressed='compressed.txt',zip_file_name='output.zip'):
+    test_file=csvfile
+    #file_mapping='mapping.txt'
+    #file_compressed='compressed.txt'
+    #zip_file_name = "output.zip"
     compression = data_compression()
     msg,df_map,train_df=compression.csvfile_compression(test_file)
     compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
