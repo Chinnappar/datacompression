@@ -331,16 +331,19 @@ def s_ui():
 # Call main function using csv file as a input
 # This main function is used for testing purpose from local system
 # ------------------------------------------------------------------------------
+
+def compression():
+    file_mapping='mapping.txt'
+    file_compressed='compressed.txt'
+    zip_file_name = "output.zip"
+    compression = data_compression()
+    msg,df_map,train_df=compression.csvfile_compression('training_data_sales_10k.csv')
+    compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        file_mapping='mapping.txt'
-        file_compressed='compressed.txt'
-        zip_file_name = "output.zip"
-        compression = data_compression()
-        msg,df_map,train_df=compression.csvfile_compression('training_data_sales_10k.csv')
-        compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
-
+        compression()
         #s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
