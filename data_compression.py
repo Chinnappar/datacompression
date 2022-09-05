@@ -29,115 +29,110 @@ pd.options.mode.chained_assignment = None  # default='warn'
 # ------------------------------------------------------------------------------
 # -- UDF's --
 # ------------------------------------------------------------------------------
-def convert_bytes(size):
-    for x in ['Bytes', 'KB', 'MB', 'GB', 'TB']:
-        if size < 1024.0:
-            return "%3.1f %s" % (size, x)
-        size /= 1024.0
 
-def file_size(file):
-    if os.path.isfile(file):
-        file_info = os.stat(file)
-        return convert_bytes(file_info.st_size),file_info.st_size
+class data_compression:
 
-def listToDict(b):
-    s = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
-    if b=="b":
-        return {s[i]:i for i in range(len(s))}
-    else:
-        return {i:s[i] for i in range(len(s))}
+    def convert_bytes(self,size):
+        for x in ['Bytes', 'KB', 'MB', 'GB', 'TB']:
+            if size < 1024.0:
+                return "%3.1f %s" % (size, x)
+            size /= 1024.0
 
-def base64_to_base10(b64dec,datatype=None):
-    conversion_table = listToDict("b")
+    def file_size(self,file):
+        if os.path.isfile(file):
+            file_info = os.stat(file)
+            return convert_bytes(file_info.st_size),file_info.st_size
 
-    if datatype == "f":
-        x=b64dec.split(".")[0]
-        y=b64dec.split(".")[1]
+    def listToDict(self,b):
+        s = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
+        if b=="b":
+            return {s[i]:i for i in range(len(s))}
+        else:
+            return {i:s[i] for i in range(len(s))}
 
-        x_dec=0
-        x_power = len(x)-1
-        for x_digit in x:
-            x_dec += conversion_table[x_digit]*64**x_power
-            x_power -= 1
+    def base64_to_base10(self,b64dec,datatype=None):
+        conversion_table = self.listToDict("b")
 
-        y_dec,z,f=0,0,0
-        y_power = len(y)-1
-        for y_digit in y:
-            if y_digit=="0" and f==0:
-                z=z+1
-            else:
-                f=1
-            y_dec += conversion_table[y_digit]*64**y_power
-            y_power -= 1
+        if datatype == "f":
+            x=b64dec.split(".")[0]
+            y=b64dec.split(".")[1]
 
-        return str(x_dec)+"."+str("").zfill(z)+str(y_dec)
-    else:
-        decimal = 0
-        power = len(b64dec) -1
-        for digit in b64dec:
-            decimal += conversion_table[digit]*64**power
-            power -= 1
-        return decimal
+            x_dec=0
+            x_power = len(x)-1
+            for x_digit in x:
+                x_dec += conversion_table[x_digit]*64**x_power
+                x_power -= 1
 
-def base10_to_base64(decimal,datatype=None):
-    conversion_table = listToDict("d")
+            y_dec,z,f=0,0,0
+            y_power = len(y)-1
+            for y_digit in y:
+                if y_digit=="0" and f==0:
+                    z=z+1
+                else:
+                    f=1
+                y_dec += conversion_table[y_digit]*64**y_power
+                y_power -= 1
 
-    if datatype == "f":
-        x=int(str(decimal).split(".")[0])
-        y=str(decimal).split(".")[1].strip()
-        z=len(y)-len(str(int(y)))
-        y=int(y)
+            return str(x_dec)+"."+str("").zfill(z)+str(y_dec)
+        else:
+            decimal = 0
+            power = len(b64dec) -1
+            for digit in b64dec:
+                decimal += conversion_table[digit]*64**power
+                power -= 1
+            return decimal
 
-        x_rem=0
-        x_b64dec=''
-        while(x > 0):
-            x_rem = x % 64
-            x_b64dec = conversion_table[x_rem] + x_b64dec
-            x = x // 64
+    def base10_to_base64(self,decimal,datatype=None):
+        conversion_table = self.listToDict("d")
 
-        y_rem=0
-        y_b64dec=''
-        while(y > 0):
-            y_rem = y % 64
-            y_b64dec = conversion_table[y_rem] + y_b64dec
-            y = y // 64
-        return x_b64dec+"."+str("").zfill(z)+y_b64dec
-    else:
-        b64dec = ''
-        remainder=0
-        while(decimal > 0):
-            remainder = decimal % 64
-            b64dec = conversion_table[remainder] + b64dec
-            decimal = decimal // 64
-        return b64dec
+        if datatype == "f":
+            x=int(str(decimal).split(".")[0])
+            y=str(decimal).split(".")[1].strip()
+            z=len(y)-len(str(int(y)))
+            y=int(y)
 
-#def save(fileName,filepath):
-#    directory = os.path.dirname(filepath)
-#    if directory != '':
-#        if not os.path.exists(directory):
-#            os.makedirs(directory)
-#    with open(filepath+'/'+fileName, 'w') as f:
-#        f.write("testing...")
+            x_rem=0
+            x_b64dec=''
+            while(x > 0):
+                x_rem = x % 64
+                x_b64dec = conversion_table[x_rem] + x_b64dec
+                x = x // 64
+
+            y_rem=0
+            y_b64dec=''
+            while(y > 0):
+                y_rem = y % 64
+                y_b64dec = conversion_table[y_rem] + y_b64dec
+                y = y // 64
+            return x_b64dec+"."+str("").zfill(z)+y_b64dec
+        else:
+            b64dec = ''
+            remainder=0
+            while(decimal > 0):
+                remainder = decimal % 64
+                b64dec = conversion_table[remainder] + b64dec
+                decimal = decimal // 64
+            return b64dec
 
 # ------------------------------------------------------------------------------
 ## Function Name: file_compress
 ## Input : mapping and csvfile as a first parameter and 2nd = output file
 ## This is normal file compression function and this is similar to winzip/7z
 # ------------------------------------------------------------------------------
-def file_compress(inp_file_names, out_zip_file):
-    compression = zipfile.ZIP_DEFLATED
-    print(f" *** Input File name passed for zipping - {inp_file_names}")
-    print(f' *** out_zip_file is - {out_zip_file}')
-    zf = zipfile.ZipFile(out_zip_file, mode="w")
+    def file_compress(self,inp_file_names, out_zip_file):
+        compression = zipfile.ZIP_DEFLATED
+        print(f" *** Input File name passed for zipping - {inp_file_names}")
+        print(f' *** out_zip_file is - {out_zip_file}')
+        zf = zipfile.ZipFile(out_zip_file, mode="w")
 
-    try:
-        for file_to_write in inp_file_names:
-            print(f' *** Processing file {file_to_write}')
-            zf.write(file_to_write, file_to_write, compress_type=compression)
-    except FileNotFoundError as e:
-        print(f' *** Exception occurred during zip process - {e}')
-    finally:
-        zf.close()
+        try:
+            for file_to_write in inp_file_names:
+                print(f' *** Processing file {file_to_write}')
+                zf.write(file_to_write, file_to_write, compress_type=compression)
+        except FileNotFoundError as e:
+            print(f' *** Exception occurred during zip process - {e}')
+        finally:
+            zf.close()
 
 # ------------------------------------------------------------------------------
 ## Function Name: csvfile_compression and Input : Csv file file full path
@@ -149,73 +144,73 @@ def file_compress(inp_file_names, out_zip_file):
 ## 5.Concatenate all the rows and make it single text [completed]
 ## final file will be compressed with normal compression function like winzip
 # ------------------------------------------------------------------------------
-def csvfile_compression(filepath):
-    try:
-        train_df=pd.read_csv(filepath)
-        #msg="Source file's size:"+str(train_df.size)
-        df_map=[]
-        df_col={col:len(train_df[col].unique()) for col in train_df.columns}
-        df_dt=[train_df[col].dtypes for col in train_df.columns ]
-        key_srtby=""
+    def csvfile_compression(self,filepath):
+        try:
+            train_df=pd.read_csv(filepath)
+            #msg="Source file's size:"+str(train_df.size)
+            df_map=[]
+            df_col={col:len(train_df[col].unique()) for col in train_df.columns}
+            df_dt=[train_df[col].dtypes for col in train_df.columns ]
+            key_srtby=""
 
-        for col in train_df.columns:
-            col_len=len(train_df[col].unique())
-            print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
-            if col_len < 3000 :
-                df_unique=train_df[col].unique()
-                s=",".join(map(str,df_unique))
-                train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
-                train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
-                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else base10_to_base64(int(x)))
-            elif train_df[col].dtypes=='int64':
-                #print("Base64 Conversion...",train_df[col].dtypes)
-                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else base10_to_base64(int(x)))
-                s="b"
-            elif train_df[col].dtypes=='object':
-                try:
-                    train_df[col] = pd.to_datetime(train_df[col]).view(int) // 10 ** 9
-                    train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else base10_to_base64(int(x)))
-                    #print("Date Column:",col)
-                    s="d"
-                except (ParserError,ValueError):
-                    pass
-            elif train_df[col].dtypes=='float64':
-                train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else base10_to_base64(x,"f"))
-                s="f"
-            else: # or train_df[col].dtypes=='float64':
-                s="n"
-            df_map.append(s)
-        df_map.append(str(df_col))
-        df_map.append(str(df_dt))
+            for col in train_df.columns:
+                col_len=len(train_df[col].unique())
+                print("Column Name:",col,"|Unique Cnt:",col_len,"|DataType:",train_df[col].dtypes,"| DateTime:",datetime.datetime.now())
+                if col_len < 3000 :
+                    df_unique=train_df[col].unique()
+                    s=",".join(map(str,df_unique))
+                    train_df[col] = train_df[col].replace(df_unique[0:int(col_len/2)],[a for a in range(int(col_len/2))])
+                    train_df[col] = train_df[col].replace(df_unique[int(col_len/2)-1:col_len],[a for a in range(int(col_len/2)-1,col_len)])
+                    train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else self.base10_to_base64(int(x)))
+                elif train_df[col].dtypes=='int64':
+                    #print("Base64 Conversion...",train_df[col].dtypes)
+                    train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else self.base10_to_base64(int(x)))
+                    s="b"
+                elif train_df[col].dtypes=='object':
+                    try:
+                        train_df[col] = pd.to_datetime(train_df[col]).view(int) // 10 ** 9
+                        train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else self.base10_to_base64(int(x)))
+                        #print("Date Column:",col)
+                        s="d"
+                    except (ParserError,ValueError):
+                        pass
+                elif train_df[col].dtypes=='float64':
+                    train_df[col] = train_df[col].apply(lambda x: x if np.isnan(x) else self.base10_to_base64(x,"f"))
+                    s="f"
+                else: # or train_df[col].dtypes=='float64':
+                    s="n"
+                df_map.append(s)
+            df_map.append(str(df_col))
+            df_map.append(str(df_dt))
 
-        print(train_df.head())
-        return "Success",df_map,train_df
+            print(train_df.head())
+            return "Success",df_map,train_df
 
-    except Exception as ex:
-            print("Error:"+str(ex))
-            df=[]
-            return "Failed!..."+str(ex),df,df
+        except Exception as ex:
+                print("Error:"+str(ex))
+                df=[]
+                return "Failed!..."+str(ex),df,df
 
-def save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name):
-    try:
-        with open(file_mapping, 'w') as f:
-            f.write("|".join(df_map))
+    def save_output_files(self,df_map,train_df,file_mapping,file_compressed,zip_file_name):
+        try:
+            with open(file_mapping, 'w') as f:
+                f.write("|".join(df_map))
 
-        df_comp=[]
-        for col in train_df.columns:
-            s=",".join(map(str,train_df[col]))
-            df_comp.append(s)
+            df_comp=[]
+            for col in train_df.columns:
+                s=",".join(map(str,train_df[col]))
+                df_comp.append(s)
 
-        with open(file_compressed, 'w') as f:
-            f.write("|".join(df_comp))
+            with open(file_compressed, 'w') as f:
+                f.write("|".join(df_comp))
 
-        file_name_list = [file_mapping, file_compressed]
-        file_compress(file_name_list, zip_file_name)
-        return "success"
-    except Exception as ex:
-            print("Error:"+str(ex))
-            df=[]
-            return "Failed!..."+str(ex)
+            file_name_list = [file_mapping, file_compressed]
+            self.file_compress(file_name_list, zip_file_name)
+            return "success"
+        except Exception as ex:
+                print("Error:"+str(ex))
+                df=[]
+                return "Failed!..."+str(ex)
 
 
 # ------------------------------------------------------------------------------
@@ -342,11 +337,11 @@ if __name__ == "__main__":
         file_mapping='mapping.txt'
         file_compressed='compressed.txt'
         zip_file_name = "output.zip"
+        compression = data_compression()
+        msg,df_map,train_df=compression.csvfile_compression('training_data_sales_10k.csv')
+        compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
 
-        #msg,df_map,train_df=csvfile_compression('training_data_sales_10k.csv')
-        #save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
-
-        s_ui()
+        #s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
