@@ -32,7 +32,7 @@ Applied 5 different formula/algorithm to compress pandas's dataframe and find th
 - Concatenate all the rows and make it single text!
     - saved the text into compressed.txt file
 
-I have developed streamlit WebUI for my function. Kindly check the same.
+We have developed streamlit WebUI for my function. Kindly check the same.
 
 #### How will use this function from Jupyter Notebook?
 
