@@ -70,15 +70,21 @@ Function will trigger and final output files are saved and also detail informati
 
 ##### Screenshots:
 
-##### Test File
+##### Test File - TESTING
 
-##### Own Csv File
+<img width="1341" alt="Screenshot 2022-09-05 at 7 41 34 AM" src="https://user-images.githubusercontent.com/112493795/188347562-e72c5673-c8be-4da2-94b1-f7df891abb62.png">
 
+<img width="1340" alt="Screenshot 2022-09-05 at 7 41 54 AM" src="https://user-images.githubusercontent.com/112493795/188347625-9cc442ff-902c-4a04-9146-97ed99526635.png">
+
+##### Your Own CSV File - TESTING
+
+<img width="1353" alt="Screenshot 2022-09-05 at 7 43 21 AM" src="https://user-images.githubusercontent.com/112493795/188348011-2626f263-8e41-45b6-885f-48283f29cf39.png">
 
 
 ### Conclusion:
-This method will be saved approx 60-70% of your space and cost. 
-For example, if you are uploading 10 MB csv file, this method will compressed data and store 3 MB files [mapping & compressed]
+- This method will be saved approx 60-70% of your space and cost. 
+- For example, if you are uploading 10 MB csv file, this method will compressed data and store 3 MB files [mapping & compressed]
+- Important Note, We can use any kind of files which is supported by pandas. (CSV/JSON/XML or DB's TABLE Also). This method apply all the algorithm/formula on pandas dataframe only so this will applicable for all the file format which is supported by pandas dataframe.
 
 
 
