@@ -365,8 +365,8 @@ def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt'
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        compression()
-        #s_ui()
+        #compression()
+        s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
