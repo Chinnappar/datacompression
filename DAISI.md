@@ -32,6 +32,7 @@ Applied 5 different formula/algorithm to compress pandas's dataframe and find th
 - Concatenate all the rows and make it single text!
     - saved the text into compressed.txt file
 
+I have developed streamlit WebUI for my function. Kindly check the same.
 
 #### How will use this function from Jupyter Notebook?
 
@@ -58,11 +59,11 @@ data_compression.compression(csvfile="training_data_sales_10k.csv",
 
 <img width="1015" alt="Screenshot 2022-09-05 at 7 11 02 AM" src="https://user-images.githubusercontent.com/112493795/188343968-931aede6-c479-4fc4-84ae-269708f40b0c.png">
 
-#### How will use this function from Streamlin?
+#### How will use this function from streamlit?
 
 ##### STEP 1:
 
-- Go to this link:
+- Go to this link or click App
 https://app.daisi.io/daisies/chinnappar/data%20compression/streamlit
 
 ##### STEP 2:
