@@ -73,7 +73,7 @@ https://app.daisi.io/daisies/chinnappar/data%20compression/streamlit
 
 ##### STEP 3:
 
-- Please click the browse buttom for upload your own csv file. 
+- Please click the browse button for upload your own csv file. 
 - Function will trigger and final output files are saved and also detail information will be displayed in the page.
 
 ##### STEP 4:
