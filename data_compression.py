@@ -255,10 +255,10 @@ def s_ui():
                 st.error(msg)
 
             st.info("Data compression is completed for test file. Please find the details below...")
-            ftest_size,test_size=file_size(test_file)
-            ftmap_size,tmap_size=file_size(file_mapping)
-            ftcomp_size,tcomp_size=file_size(file_compressed)
-            ftzip_size,tzip_size=file_size(zip_file_name)
+            ftest_size,test_size=compression.file_size(test_file)
+            ftmap_size,tmap_size=compression.file_size(file_mapping)
+            ftcomp_size,tcomp_size=compression.file_size(file_compressed)
+            ftzip_size,tzip_size=compression.file_size(zip_file_name)
             tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
 
             df_test=pd.read_csv(test_file)
@@ -295,9 +295,9 @@ def s_ui():
 
             st.info("Data compression is completed for your CSV file. Please download the Zip.")
             csv_size=csv_file.size
-            fmap_size,map_size=file_size(file_mapping)
-            fcomp_size,comp_size=file_size(file_compressed)
-            fzip_size,zip_size=file_size(zip_file_name)
+            fmap_size,map_size=compression.file_size(file_mapping)
+            fcomp_size,comp_size=compression.file_size(file_compressed)
+            fzip_size,zip_size=compression.file_size(zip_file_name)
             number="{:.2%}".format((csv_size-(comp_size+map_size))/csv_size)
 
             with st.expander("ℹ️ - Compressed - Sample Data:", expanded=True):
