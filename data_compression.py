@@ -30,10 +30,6 @@ pd.options.mode.chained_assignment = None  # default='warn'
 # ------------------------------------------------------------------------------
 
 class data_compression:
-    def __init__(self):
-        self.df_input=None
-        self.df_final=None
-
     def getInputDF(self):
         return self.df_input
 
@@ -155,7 +151,6 @@ class data_compression:
     def csvfile_compression(self,filepath):
         try:
             train_df=pd.read_csv(filepath)
-            self.df_input=pd.read_csv(filepath)
             #msg="Source file's size:"+str(train_df.size)
             df_map=[]
             df_col={col:len(train_df[col].unique()) for col in train_df.columns}
@@ -193,7 +188,6 @@ class data_compression:
             df_map.append(str(df_dt))
 
             print(train_df.head())
-            self.df_final=train_df
             return "Success",df_map,train_df
 
         except Exception as ex:
@@ -250,13 +244,13 @@ def s_ui():
         zip_file_name = 'output.zip'
 
         if st.button("Test"):
+            compression = data_compression()
             test_file="training_data_sales_10k.csv"
-
-            msg,df_map,train_df=csvfile_compression(test_file)
+            msg,df_map,train_df=compression.csvfile_compression(test_file)
             if "failed" in msg:
                 st.error(msg)
 
-            msg=save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+            msg=compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
             if "failed" in msg:
                 st.error(msg)
 
@@ -290,11 +284,12 @@ def s_ui():
 
         csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
         if csv_file is not None:
-            msg,df_map,train_df=csvfile_compression(csv_file)
+            compression = data_compression()
+            msg,df_map,train_df=compression.csvfile_compression(csv_file)
             if "failed" in msg:
                 st.error(msg)
 
-            msg=save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+            msg=compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
             if "failed" in msg:
                 st.error(msg)
 
@@ -350,12 +345,6 @@ def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt'
     compression = data_compression()
     msg,df_map,train_df=compression.csvfile_compression(test_file)
     compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
-
-    print("Testing - Input Sample Data:")
-    print(compression.getInputDF().head())
-
-    print("Testing - Compressed Sample Data:")
-    print(compression.getCompDF().head())
 
     ftest_size,test_size=compression.file_size(test_file)
     ftmap_size,tmap_size=compression.file_size(file_mapping)
