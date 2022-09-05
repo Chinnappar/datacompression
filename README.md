@@ -16,15 +16,21 @@ We can apply the following algorithm in any type of files like CSV/JSON/XML/ Dat
 
 Applied 5 different formula/algorithm to compress pandas's dataframe and find the details in below:
 
-#### 1. Mapping for repeated data
-
-#### 2. Group by for repeated data
-
-#### 3. Date values convert into epoch format
-
-#### 4. Convert Base10 to Base64 for integer Values
-
-#### 5. Concatenate all the rows and make it single text!
+- Mapping for repeated data 
+    - This algorithm is applied in pandas dataframe column wise
+    - This algorithm is appliable if column data is having less then 2000 uniqu values
+    - All the unique values are concatenate and saved in mapping.txt file
+    - unique values are replaced with numbers in the dataframe column
+    - For Example: Unique values are [Chennai,Bangalore, Madurai,Delhi,Mumbai], this values are stored in mapping file and replaced with 0,1,2,3,4
+- Group by for repeated data
+    - This is only applicable if "Mapping for repeated data" algorithm applied
+- Date values convert into integer format 
+    - convert the date values into integer 
+- Convert Base10 to Base64 for integer Values
+    - I have developed new method for this conversion.
+    - Apply this algorithm (Base10 to Base64) in all the integer and float columns 
+- Concatenate all the rows and make it single text!
+    - saved the text into compressed.txt file
 
 
 #### How will use this function from Jupyter Notebook?
