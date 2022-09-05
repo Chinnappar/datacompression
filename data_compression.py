@@ -306,7 +306,7 @@ def s_ui():
             with st.expander("ℹ️ - Results:", expanded=True):
                 st.write(
                     f'''
-                 -  Uploaded File Details- File Name: {csv_file.name} File Type: {csv_file.type} File Size: {convert_bytes(csv_size)}
+                 -  Uploaded File Details- File Name: {csv_file.name} File Type: {csv_file.type} File Size: {compression.convert_bytes(csv_size)}
                  -  Size of mapping file which is used for decompression: {fmap_size}
                  -  Size of compression csv file: {fcomp_size}
                  -  Size of zipped file for above two: {fzip_size}
