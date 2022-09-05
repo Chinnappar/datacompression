@@ -20,7 +20,6 @@ from pandas.errors import ParserError
 import sys
 import zipfile
 import streamlit as st
-import base64
 import time
 import os
 import math
@@ -41,7 +40,7 @@ class data_compression:
     def file_size(self,file):
         if os.path.isfile(file):
             file_info = os.stat(file)
-            return convert_bytes(file_info.st_size),file_info.st_size
+            return self.convert_bytes(file_info.st_size),file_info.st_size
 
     def listToDict(self,b):
         s = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
@@ -333,12 +332,29 @@ def s_ui():
 # ------------------------------------------------------------------------------
 
 def compression():
+    test_file='training_data_sales_10k.csv'
     file_mapping='mapping.txt'
     file_compressed='compressed.txt'
     zip_file_name = "output.zip"
     compression = data_compression()
-    msg,df_map,train_df=compression.csvfile_compression('training_data_sales_10k.csv')
+    msg,df_map,train_df=compression.csvfile_compression(test_file)
     compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+
+    ftest_size,test_size=compression.file_size(test_file)
+    ftmap_size,tmap_size=compression.file_size(file_mapping)
+    ftcomp_size,tcomp_size=compression.file_size(file_compressed)
+    ftzip_size,tzip_size=compression.file_size(zip_file_name)
+    tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
+
+    print("")
+    print("Result - Test CSV File...")
+    print(f"Test File Details- Input File Name: {test_file} | File Type: csv | File Size: {ftest_size}")
+    print(f"Size of mapping file which is used for decompression- Output File Name: {file_mapping} | File Size: {ftmap_size}")
+    print(f"Size of compression csv file- Output File Name: {file_compressed} | File Size:  {ftcomp_size}")
+    print(f"Size of zipped file for above two- Output File Name: {zip_file_name} | File Size:  {ftzip_size}")
+    print("")
+    print("Saving...")
+    print(f"Test file is compressed - {tnumber}")
 
 if __name__ == "__main__":
     try:
