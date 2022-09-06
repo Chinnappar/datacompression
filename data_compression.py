@@ -339,11 +339,7 @@ def s_ui():
 # Call main function using csv file as a input
 # This main function is used for testing purpose from local system
 # ------------------------------------------------------------------------------
-
 def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt',file_compressed='compressed.txt',zip_file_name='output.zip'):
-    return True
-    
-def compression1(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt',file_compressed='compressed.txt',zip_file_name='output.zip'):
     test_file=csvfile
     #file_mapping='mapping.txt'
     #file_compressed='compressed.txt'
@@ -367,6 +363,7 @@ def compression1(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt
     print("")
     print("Saving...")
     print(f"Test file is compressed - {tnumber}")
+    return True
 
 if __name__ == "__main__":
     try:
