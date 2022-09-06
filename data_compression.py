@@ -282,7 +282,7 @@ def s_ui():
                     '''
                 )
 
-        csv_file = st.file_uploader("##### Please upload your own csv file", type=['csv'], accept_multiple_files=False)
+        csv_file = st.file_uploader("#### Please upload your own csv file", type=['csv'], accept_multiple_files=False)
         if csv_file is not None:
             compression = data_compression()
             msg,df_map,train_df=compression.csvfile_compression(csv_file)
