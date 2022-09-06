@@ -31,7 +31,7 @@ pd.options.mode.chained_assignment = None  # default='warn'
 
 class data_compression:
     def __init__(self):
-        print("Welcome to GCP")
+        print("Welcome to Data Compression")
 
     def getInputDF(self):
         return self.df_input
@@ -345,14 +345,14 @@ def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt'
     #file_mapping='mapping.txt'
     #file_compressed='compressed.txt'
     #zip_file_name = "output.zip"
-    compression = data_compression()
-    msg,df_map,train_df=compression.csvfile_compression(test_file)
-    compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
+    comp = data_compression()
+    msg,df_map,train_df=comp.csvfile_compression(test_file)
+    comp.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
 
-    ftest_size,test_size=compression.file_size(test_file)
-    ftmap_size,tmap_size=compression.file_size(file_mapping)
-    ftcomp_size,tcomp_size=compression.file_size(file_compressed)
-    ftzip_size,tzip_size=compression.file_size(zip_file_name)
+    ftest_size,test_size=comp.file_size(test_file)
+    ftmap_size,tmap_size=comp.file_size(file_mapping)
+    ftcomp_size,tcomp_size=comp.file_size(file_compressed)
+    ftzip_size,tzip_size=comp.file_size(zip_file_name)
     tnumber="{:.2%}".format((test_size-(tcomp_size+tmap_size))/test_size)
 
     print("")
