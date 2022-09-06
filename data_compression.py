@@ -223,6 +223,9 @@ class data_compression:
 # ------------------------------------------------------------------------------
 def s_ui():
     try:
+        file_mapping='mapping.txt'
+        file_compressed='compressed.txt'
+        zip_file_name='output.zip'
         st.set_page_config(layout = "wide")
         st.title("Data Compression")
         st.info("Developed by Chinnappar & Team (R-AI)")
