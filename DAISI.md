@@ -4,33 +4,33 @@ Data compression is a set of steps for packing data into a smaller space by redu
 
 Compressing data can save storage capacity, speed up file transfer, and decrease costs for storage hardware and network bandwidth.
 
-The design of data compression schemes involves trade-offs among various factors, for example, the degree of compression, the amount of distortion introduced, the computational resources required for compression and decompression etc.
+The design of data compression schemes involves trade-offs among various factors, for example, the degree of compression, the amount of distortion introduced, the computational resources required for compression and decompression, etc.
 
-Please refer this link https://en.wikipedia.org/wiki/Data_compression for more details
+Please refer to this link https://en.wikipedia.org/wiki/Data_compression for more details
 
 ## How compression works:-
 
 Compression is performed by a program that uses a formula or algorithm to determine how to shrink the size of the data.
 
-We can apply the following algorithm in any type of files like CSV/JSON/XML/ Database's Tables.
+We can apply the following algorithms in any type of file like CSV/JSON/XML/ Database's Tables.
 
-Applied 5 different formula/algorithm to compress pandas's dataframe and find the details in below:
+Applied 5 different formulas/algorithms to compress pandas' dataframe and find the details below:
 
 - Mapping for repeated data 
-    - This algorithm is applied in pandas dataframe column wise
-    - This algorithm is appliable if column data is having less then 2000 uniqu values
-    - All the unique values are concatenate and saved in mapping.txt file
-    - unique values are replaced with numbers in the dataframe column
+    - This algorithm is applied in pandas data frame column wise
+    - This algorithm is appliable if column data is having less than 2000 unique values
+    - All the unique values are concatenated and saved in the mapping.txt file
+    - Unique values are replaced with numbers in the dataframe column
     - For Example: Unique values are [Chennai,Bangalore, Madurai,Delhi,Mumbai], this values are stored in mapping file and replaced with 0,1,2,3,4
 - Group by for repeated data
-    - This is only applicable if "Mapping for repeated data" algorithm applied
+    - This is only applicable if the "Mapping for repeated data" algorithm applied
 - Date values convert into integer format 
     - convert the date values into integer 
 - Convert Base10 to Base64 for integer Values
-    - I have developed new method for this conversion.
+    - I have developed a new method for this conversion.
     - Apply this algorithm (Base10 to Base64) in all the integer and float columns 
 - Concatenate all the rows and make it single text!
-    - saved the text into compressed.txt file
+    - saved the text into a compressed.txt file
 
 We have developed streamlit WebUI for my function. Kindly check the same.
 
@@ -48,12 +48,12 @@ data_compression.compression(csvfile="training_data_sales_10k.csv",
                              zip_file_name="output.zip").value
                             
 ##### Parameters:
-- csvfile - This is input csv file and optional. This file should be presented in the server.
-- file_mapping - first output file [Mapping File] and this will used for decompression.
+- csvfile - This is input CSV file and optional. This file should be presented on the server.
+- file_mapping - first output file [Mapping File] and this will be used for decompression.
 - file_compressed - second output file [Compressed File] and compressed data will be stored.
-- zip_file_name - third output file [output.zip]. Above two files (mapping and compressed) are zipped and stored in this file.
+- zip_file_name - third output file [output.zip]. The above two files (mapping and compressed) are zipped and stored in this file.
  
- Note: if you are facing any file permission issue, please run chmod 777 command and try again.
+ Note: if you are facing any file permission issue, please "run chmod 777" command and try again.
  
 ### Screenshot:
 
@@ -68,13 +68,13 @@ https://app.daisi.io/daisies/chinnappar/data%20compression/streamlit
 
 ##### STEP 2:
 
-- Click the Test button, automatically read the test csv file.
-- Function will trigger and final output files are saved and also detail information will be displayed in the page.
+- Click the Test button, and automatically read the test CSV file.
+- Function will trigger and final output files are saved and also detailed information will be displayed on the page.
 
 ##### STEP 3:
 
-- Please click the browse button for upload your own csv file. 
-- Function will trigger and final output files are saved and also detail information will be displayed in the page.
+- Please click the browse button to upload your CSV file. 
+- Function will trigger and final output files are saved and also detailed information will be displayed on the page.
 
 ##### STEP 4:
 
@@ -99,8 +99,6 @@ Click the Download Zip Button to download your output files
 
 ### Conclusion:
 - This method will be saved approx 60-70% of your space and cost. 
-- For example, if you are uploading 10 MB csv file, this method will compressed data and store 3 MB files [mapping & compressed]
-- Important Note, We can use any kind of files which is supported by pandas. (CSV/JSON/XML or DB's TABLE Also). This method apply all the algorithm/formula on pandas dataframe only so this will applicable for all the file format which is supported by pandas dataframe.
-
-
+- For example, if you are uploading a 10 MB CSV file, this method will compress data and store 3 MB files [mapping & compressed]
+- Important Note, We can use any kind of file which is supported by pandas. (CSV/JSON/XML or DB's TABLE Also). This method applies all the algorithm/formula on the pandas' data frame only so this will apply to all the file format which is supported.
 
