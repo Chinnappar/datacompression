@@ -216,23 +216,21 @@ class data_compression:
                 df=[]
                 return "Failed!..."+str(ex)
 
+
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
 # This main function is used for testing purpose from WebUI
 # ------------------------------------------------------------------------------
 def s_ui():
     try:
-        file_mapping='mapping.txt'
-        file_compressed='compressed.txt'
-        zip_file_name='output.zip'
         st.set_page_config(layout = "wide")
         st.title("Data Compression")
         st.info("Developed by Chinnappar & Team (R-AI)")
         with st.expander("ℹ️ - About this app", expanded=True):
             st.write(
                 """
-             -  Data Compression is performed by a program that uses a formula or algorithm to determine how to shrink the size of the data.
-             -  Applied 5 different formulas/algorithms to compress pandas' dataframe and find the details below:
+             -  Data compression is performed by a program that uses a formula/algorithm to determine how to shrink the size of the data.
+             -  Applied 5 different formula/algorithm to compress pandas's dataframe and find the details in below:
                 -   Mapping for repeated data
                 -   Group by for repeated data
                 -   Date values convert into epoch format
@@ -240,6 +238,10 @@ def s_ui():
                 -   Concatenate all the rows and make it single text!
                 """
             )
+        st.write("#### Data Compression for CSV file:")
+        file_mapping='mapping2.txt'
+        file_compressed='compressed.txt'
+        zip_file_name = 'output.zip'
 
         if st.button("Test"):
             compression = data_compression()
@@ -280,7 +282,7 @@ def s_ui():
                     '''
                 )
 
-        csv_file = st.file_uploader("Please upload your own csv file", type=['csv'], accept_multiple_files=False)
+        csv_file = st.file_uploader("##### Please upload your own csv file", type=['csv'], accept_multiple_files=False)
         if csv_file is not None:
             compression = data_compression()
             msg,df_map,train_df=compression.csvfile_compression(csv_file)
@@ -337,6 +339,9 @@ def s_ui():
 
 def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt',file_compressed='compressed.txt',zip_file_name='output.zip'):
     test_file=csvfile
+    #file_mapping='mapping.txt'
+    #file_compressed='compressed.txt'
+    #zip_file_name = "output.zip"
     compression = data_compression()
     msg,df_map,train_df=compression.csvfile_compression(test_file)
     compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
@@ -360,8 +365,8 @@ def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt'
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        compression()
-        #s_ui()
+        #compression()
+        s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
