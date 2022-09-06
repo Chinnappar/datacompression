@@ -341,6 +341,9 @@ def s_ui():
 # ------------------------------------------------------------------------------
 
 def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt',file_compressed='compressed.txt',zip_file_name='output.zip'):
+    print("Success")
+    
+def compression1(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt',file_compressed='compressed.txt',zip_file_name='output.zip'):
     test_file=csvfile
     #file_mapping='mapping.txt'
     #file_compressed='compressed.txt'
