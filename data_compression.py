@@ -216,7 +216,6 @@ class data_compression:
                 df=[]
                 return "Failed!..."+str(ex)
 
-
 # ------------------------------------------------------------------------------
 # Call main function using csv file as a input
 # This main function is used for testing purpose from WebUI
@@ -338,9 +337,6 @@ def s_ui():
 
 def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt',file_compressed='compressed.txt',zip_file_name='output.zip'):
     test_file=csvfile
-    #file_mapping='mapping.txt'
-    #file_compressed='compressed.txt'
-    #zip_file_name = "output.zip"
     compression = data_compression()
     msg,df_map,train_df=compression.csvfile_compression(test_file)
     compression.save_output_files(df_map,train_df,file_mapping,file_compressed,zip_file_name)
@@ -364,8 +360,8 @@ def compression(csvfile='training_data_sales_10k.csv',file_mapping='mapping.txt'
 if __name__ == "__main__":
     try:
         print("Started - DateTime:",datetime.datetime.now())
-        #compression()
-        s_ui()
+        compression()
+        #s_ui()
         print("compression is completed...")
         print("End - DateTime:",datetime.datetime.now())
 
